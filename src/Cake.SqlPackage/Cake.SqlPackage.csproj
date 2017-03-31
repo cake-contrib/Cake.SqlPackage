@@ -4,7 +4,7 @@
     <TargetFramework>netstandard1.6</TargetFramework>
     <Version>0.1.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <PackageTags>SQL</PackageTags>
+    <PackageTags>SQL; DACPAC;</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

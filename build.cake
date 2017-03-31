@@ -1,13 +1,28 @@
 // INSTALL TOOLS
 #tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.2"
+#tool "nuget:https://www.nuget.org/api/v2?package=xunit.runner.console&version=2.2.0"
 
 // ARGUMENTS
 var target = Argument("target", "Default");
-var configuration = Argument("configuration", "Debug");
+var configuration = Argument("configuration", "Release");
 
 // GLOBAL VARIABLES
 var sourcePath  = Directory("./src");
 var solution = File("./Cake.SqlPackage.sln");
+
+///////////////////////////////////////////////////////////////////////////////
+// SETUP / TEARDOWN
+///////////////////////////////////////////////////////////////////////////////
+Setup(() =>
+{
+	Information("Target Cake Task: {0}", target);
+});
+
+Teardown(() => 
+{
+	Information("Target Cake Task: {0}", target);
+    Information("Build Completion Time: {0}", DateTime.Now.TimeOfDay);
+});
 
 // TASKS
 Task("Restore")
@@ -31,9 +46,10 @@ Task("Assembly")
     {
         var gitVersionSettings = new GitVersionSettings 
         {
-            UpdateAssemblyInfoFilePath = "./src/SolutionInfo.cs",
+            UpdateAssemblyInfoFilePath = "./SolutionInfo.cs",
             UpdateAssemblyInfo = true
         };
+
          GitVersion(gitVersionSettings);
     });
 
@@ -59,9 +75,10 @@ Task("Unit-Tests")
         var settings = new DotNetCoreTestSettings 
         {
             Configuration = configuration,
+            NoBuild = true
         };
 
-        var testProject = File("./test/Cake.SqlPackage.Tests/Cake.SqlPackage.Tests.csproj");
+        var testProject = File("./test/Cake.SqlPackage.Tests/");
         DotNetCoreTest(testProject, settings);
     });
 
@@ -73,7 +90,7 @@ Task("Pack")
         var projects = GetFiles("./**/project.json");
         var settings = new DotNetCorePackSettings
         {
-            Configuration = "Release",
+            Configuration = configuration,
             OutputDirectory = "./artifacts/"
         };
 
