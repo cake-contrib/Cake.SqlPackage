@@ -1,0 +1,66 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FC602C31-A856-4936-82F8-A1CC9B853499}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{092C59BA-E86E-4394-B7D4-296E7AE7826D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C68D1ECD-C403-437B-984C-5F9D819320E1}"
+	ProjectSection(SolutionItems) = preProject
+		build.cake = build.cake
+		build.ps1 = build.ps1
+		build.sh = build.sh
+		GitVersion.yml = GitVersion.yml
+		LICENSE = LICENSE
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.SqlPackage", "src\Cake.SqlPackage\Cake.SqlPackage.csproj", "{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.SqlPackage.Tests", "test\Cake.SqlPackage.Tests\Cake.SqlPackage.Tests.csproj", "{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Debug|x64.Build.0 = Debug|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Debug|x86.Build.0 = Debug|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Release|x64.ActiveCfg = Release|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Release|x64.Build.0 = Release|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Release|x86.ActiveCfg = Release|Any CPU
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}.Release|x86.Build.0 = Release|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Debug|x64.Build.0 = Debug|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Debug|x86.Build.0 = Debug|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Release|x64.ActiveCfg = Release|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Release|x64.Build.0 = Release|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Release|x86.ActiveCfg = Release|Any CPU
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2FCEED7D-3CDC-4B24-8013-8058AAA0020A} = {FC602C31-A856-4936-82F8-A1CC9B853499}
+		{1E9629CD-8B8A-44C3-B12A-1AC4360FF19C} = {092C59BA-E86E-4394-B7D4-296E7AE7826D}
+	EndGlobalSection
+EndGlobal
