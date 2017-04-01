@@ -5,12 +5,12 @@ namespace Cake.SqlPackage
     /// </summary>
     public enum SqlPackageAction
     {
-        Extract,
-        DeployReport,
-        DriftReport,
-        Publish,
-        Script,
-        Export,
-        Import
+        Publish = 0,
+        Extract = 1,
+        DeployReport = 2,
+        DriftReport = 3,
+        Script = 4,
+        Export = 5,
+        Import = 6
     }
 }

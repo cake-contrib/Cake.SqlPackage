@@ -10,11 +10,6 @@ namespace Cake.SqlPackage
     /// <seealso cref="Cake.Core.Tooling.ToolSettings" />
     public class SqlPackageSettings : ToolSettings
     {
-        public SqlPackageSettings()
-        {
-            Action = SqlPackageAction.Publish;
-        }
-
         /// <summary>
         /// Specifies the action to be performed.
         /// </summary>

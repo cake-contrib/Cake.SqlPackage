@@ -6,6 +6,9 @@ using Cake.Core.Tooling;
 
 namespace Cake.SqlPackage
 {
+    /// <summary>
+    /// SqlPackage tool execution.
+    /// </summary>
     public class SqlPackageRunner : Tool<SqlPackageSettings>
     {
         /// <summary>

@@ -30,7 +30,7 @@ Param(
     [string]$Target = "Default",
     [string]$Configuration = "Release",
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
-    [string]$Verbosity = "Quiet",
+    [string]$Verbosity = "Verbose",
     [Alias("DryRun","Noop")]
     [switch]$Experimental,
     [switch]$WhatIf
@@ -70,7 +70,7 @@ if (!(Test-Path $NUGET_EXE)) {
 
 # Try download NuGet.exe if not exists
 if (!(Test-Path $NUGET_EXE)) {
-    Invoke-WebRequest -Uri http://nuget.org/nuget.exe -OutFile $NUGET_EXE
+    Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe -OutFile $NUGET_EXE
 }
 
 # Make sure NuGet exists where we expect it.
