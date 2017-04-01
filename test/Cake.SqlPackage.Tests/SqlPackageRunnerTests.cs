@@ -253,13 +253,13 @@ namespace Cake.SqlPackage.Tests
             {
                 // Given
                 var fixture = new SqlPackageFixture();
-                fixture.Settings.SourceFile = "./sqlpublisprofile.pubxml";
+                fixture.Settings.SourceFile = "./sqlpublishprofile.pubxml";
 
                 // When
                 var result = fixture.Run();
 
                 // Then
-                Assert.Equal("/Action:Publish /SourceFile:\"/Working/sqlpublisprofile.pubxml\"", result.Args);
+                Assert.Equal("/Action:Publish /SourceFile:\"/Working/sqlpublishprofile.pubxml\"", result.Args);
             }
 
             [Fact]
@@ -267,7 +267,7 @@ namespace Cake.SqlPackage.Tests
             {
                 // Given
                 var fixture = new SqlPackageFixture();
-                fixture.Settings.SourceFile = "./sqlpublisprofile.pubxml";
+                fixture.Settings.SourceFile = "./sqlpublishprofile.pubxml";
 
                 // When
                 var result = fixture.Run();
@@ -281,7 +281,7 @@ namespace Cake.SqlPackage.Tests
             {
                 // Given
                 var fixture = new SqlPackageFixture();
-                fixture.Settings.SourceFile = "./sqlpublisprofile.pubxml";
+                fixture.Settings.SourceFile = "./sqlpublishprofile.pubxml";
 
                 // When
                 var result = fixture.Run();
@@ -354,13 +354,13 @@ namespace Cake.SqlPackage.Tests
             {
                 // Given
                 var fixture = new SqlPackageFixture();
-                fixture.Settings.TargetFile = "./sqlpublisprofile.pubxml";
+                fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
 
                 // When
                 var result = fixture.Run();
 
                 // Then
-                Assert.Equal("/Action:Publish /TargetFile:\"/Working/sqlpublisprofile.pubxml\"", result.Args);
+                Assert.Equal("/Action:Publish /TargetFile:\"/Working/sqlpublishprofile.pubxml\"", result.Args);
             }
 
             [Fact]
@@ -368,7 +368,7 @@ namespace Cake.SqlPackage.Tests
             {
                 // Given
                 var fixture = new SqlPackageFixture();
-                fixture.Settings.TargetFile = "./sqlpublisprofile.pubxml";
+                fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
 
                 // When
                 var result = fixture.Run();
@@ -382,7 +382,7 @@ namespace Cake.SqlPackage.Tests
             {
                 // Given
                 var fixture = new SqlPackageFixture();
-                fixture.Settings.TargetFile = "./sqlpublisprofile.pubxml";
+                fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
 
                 // When
                 var result = fixture.Run();

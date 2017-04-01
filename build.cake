@@ -1,31 +1,53 @@
+////////////////////////////////////
 // INSTALL TOOLS
-#tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.2"
-#tool "nuget:https://www.nuget.org/api/v2?package=xunit.runner.console&version=2.2.0"
+////////////////////////////////////
+#tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.5"
 
+////////////////////////////////////
 // ARGUMENTS
-var target = Argument("target", "Default");
+////////////////////////////////////
+var target = Argument("target", "Pack");
 var configuration = Argument("configuration", "Release");
 
+////////////////////////////////////
 // GLOBAL VARIABLES
+////////////////////////////////////
 var sourcePath  = Directory("./src");
 var solution = File("./Cake.SqlPackage.sln");
+var appVeyor = AppVeyor.IsRunningOnAppVeyor;
+var cleanDirectories = new string []{"./artifacts"};
 
-///////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////
 // SETUP / TEARDOWN
-///////////////////////////////////////////////////////////////////////////////
-Setup(() =>
+////////////////////////////////////
+Setup(context =>
 {
 	Information("Target Cake Task: {0}", target);
 });
 
-Teardown(() => 
+Teardown(context => 
 {
 	Information("Target Cake Task: {0}", target);
     Information("Build Completion Time: {0}", DateTime.Now.TimeOfDay);
 });
 
+////////////////////////////////////
 // TASKS
+////////////////////////////////////
+Task("Clean")
+    .Does(() =>
+{
+    // Clean solution directories.
+
+	foreach(var directory in cleanDirectories)
+	{
+		Information("{0}", directory);
+		CleanDirectories(directory);
+	}
+});
+
 Task("Restore")
+	.IsDependentOn("Clean")
     .Does(() =>
     {
         var settings =  new DotNetCoreRestoreSettings
@@ -78,13 +100,12 @@ Task("Unit-Tests")
             NoBuild = true
         };
 
-        var testProject = File("./test/Cake.SqlPackage.Tests/");
-        DotNetCoreTest(testProject, settings);
+        DotNetCoreTest("./test/**/", settings);
     });
 
 Task("Pack")
+    .IsDependentOn("Assembly")
     .IsDependentOn("Build")
-    .IsDependentOn("Unit-Tests")
     .Does(() =>
     {
         var projects = GetFiles("./**/project.json");
@@ -97,9 +118,54 @@ Task("Pack")
         DotNetCorePack(solution, settings);
     });
 
+Task("MyGet")
+    .IsDependentOn("Assembly")
+    .IsDependentOn("Build")
+    .IsDependentOn("Pack")
+	.WithCriteria(appVeyor)
+    .Does(() =>
+    {
+        // Retrieve the API key.
+        var apiKey = EnvironmentVariable("MYGET_API_KEY");
+        if(string.IsNullOrEmpty(apiKey)) 
+        {
+            throw new InvalidOperationException("Could not retrieve MyGet API key.");
+        }
+
+        // Resolve the API url.
+        var apiUrl = EnvironmentVariable("MYGET_API_URL");
+        if(string.IsNullOrEmpty(apiUrl)) 
+        {
+            throw new InvalidOperationException("Could not retrieve MyGet API url.");
+        }
+
+        // Push the package.
+        var packages = GetFiles("./artifacts/nuget/*.nupkg");
+
+        foreach(var package in packages)
+        {
+            NuGetPush(package, new NuGetPushSettings {
+                Source = apiUrl,
+                ApiKey = apiKey
+            });
+        }
+    })
+    .OnError(exception =>
+    {
+        Error(exception.Message);
+        Information("Publish-MyGet Task failed, but continuing with next Task...");
+    });
+
+////////////////////////////////////
 // DEPENDENCIES
+////////////////////////////////////
 Task("Default")
     .IsDependentOn("Pack");
 
+Task("Deliver")
+	.IsDependentOn("MyGet");
+
+////////////////////////////////////
 // EXECUTE
+////////////////////////////////////
 RunTarget(target);
