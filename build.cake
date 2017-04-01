@@ -15,6 +15,7 @@ var configuration = Argument("configuration", "Release");
 var sourcePath  = Directory("./src");
 var solution = File("./Cake.SqlPackage.sln");
 var appVeyor = AppVeyor.IsRunningOnAppVeyor;
+var nupkgDirectory = "./artifacts/nuget";
 var cleanDirectories = new string []{"./artifacts"};
 
 ////////////////////////////////////
@@ -112,7 +113,7 @@ Task("Pack")
         var settings = new DotNetCorePackSettings
         {
             Configuration = configuration,
-            OutputDirectory = "./artifacts/"
+            OutputDirectory = nupkgDirectory
         };
 
         DotNetCorePack(solution, settings);
@@ -140,10 +141,12 @@ Task("MyGet")
         }
 
         // Push the package.
-        var packages = GetFiles("./artifacts/nuget/*.nupkg");
+        var packages = GetFiles(nupkgDirectory + "/*.nupkg");
 
         foreach(var package in packages)
         {
+			Information("{0}", package);
+
             NuGetPush(package, new NuGetPushSettings {
                 Source = apiUrl,
                 ApiKey = apiKey
