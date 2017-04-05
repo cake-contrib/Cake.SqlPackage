@@ -1,8 +1,8 @@
 ////////////////////////////////////
 // INSTALL TOOLS
 ////////////////////////////////////
-#tool "nuget:https://www.nuget.org/api/v2?package=xunit.runner.console&version=2.1.0"
 #tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.5"
+#tool "xunit.runner.console"
 
 ////////////////////////////////////
 // ARGUMENTS
@@ -13,28 +13,36 @@ var configuration = Argument("configuration", "Release");
 ////////////////////////////////////
 // GLOBAL VARIABLES
 ////////////////////////////////////
+var sourcePath  = Directory("./src");
+var artifacts = Directory("./artifacts");
+var artifactNet452 = Directory("./artifacts/net452");
+var solutionPath = File("./Cake.SqlPackage.sln");
+var solution = ParseSolution(solutionPath);
+var projects = solution.Projects;
+var projectPaths = projects.Select(p => p.Path.GetDirectory());
+var testAssemblies = projects.Where(p => p.Name.Contains(".UnitTests")).Select(p => p.Path.GetDirectory() + "/bin/" + configuration + "/" + p.Name + ".dll");
 var appVeyor = AppVeyor.IsRunningOnAppVeyor;
-var solution = File("./Cake.SqlPackage.sln");
-var csprojFile = File ("./src/Cake.SqlPackage/Cake.SqlPackage.csproj");
-var unitTestFile = File("./src/Cake.SqlPackage/Cake.SqlPackage.csproj");
-var sourcePath = Directory("./src");
 var nupkgDirectory = Directory("./artifacts/nuget");
-var testArtifacts = Directory("./artifacts/tests");
-var nupkgFiles = nupkgDirectory.Path.FullPath + "/*.nupkg";
-var cleanDirectories = new DirectoryPath[] { Directory("./artifacts") };
+var csProject = File("./src/Cake.SqlPackage/Cake.SqlPackage.csproj");
+var testResultsPath = MakeAbsolute(Directory(artifacts.Path.FullPath + "./test-results"));
+var cleanDirectories = new DirectoryPath []{ artifacts, artifactNet452 };
+GitVersion versionInfo = null;
 
 ////////////////////////////////////
 // SETUP / TEARDOWN
 ////////////////////////////////////
 Setup(context =>
 {
-	Information("Target Cake Task: {0}", target);
+    versionInfo = GitVersion();
+    Information("Target Cake Task: {0}", target);
+    Information("Build Version: {0}", versionInfo.FullSemVer);
 });
 
 Teardown(context => 
 {
 	Information("Target Cake Task: {0}", target);
-    Information("Build Completion Time: {0}", DateTime.UtcNow.TimeOfDay);
+    Information("Build Version: {0}", versionInfo.FullSemVer);
+    Information("Build Completion Time: {0}", DateTime.Now.TimeOfDay);
 });
 
 ////////////////////////////////////
@@ -43,11 +51,12 @@ Teardown(context =>
 Task("Clean")
     .Does(() =>
     {
-        // Clean solution directories.
+        // Clean solutionPath directories.
         foreach(var directory in cleanDirectories)
         {
-            Information("{0}", directory);
-            CleanDirectories(directory.FullPath);
+            var fullPath = MakeAbsolute(directory);
+            Information("{0}", fullPath.FullPath);
+            CleanDirectories(fullPath.FullPath);
         }
     });
 
@@ -55,23 +64,8 @@ Task("Restore")
 	.IsDependentOn("Clean")
     .Does(() =>
     {
-        var settings =  new DotNetCoreRestoreSettings
-        {
-            Sources = new [] 
-            {
-				"https://api.nuget.org/v3/index.json",
-            }
-        };
-
-        DotNetCoreRestore(solution, settings);
+        NuGetRestore(solutionPath);
     });
-
-	Task("Nuget-Restore")
-		.IsDependentOn("Clean")
-		.Does(() =>
-		{
-			NuGetRestore(solution);
-		});
 
 Task("Assembly")
     .IsDependentOn("Restore")
@@ -87,63 +81,67 @@ Task("Assembly")
     });
 
 Task("Build")
-    .IsDependentOn("Restore")
+	.IsDependentOn("Restore")
     .Does(() =>
     {
-        var settings = new DotNetCoreBuildSettings 
-        {
-            Configuration = configuration
-        };
-
-        DotNetCoreBuild(solution, settings);
+        MSBuild(solutionPath, settings =>
+            settings.SetPlatformTarget(PlatformTarget.MSIL)
+                .WithProperty("TreatWarningsAsErrors","true")
+                .SetVerbosity(Verbosity.Quiet)
+                .WithTarget("Build")
+                .SetConfiguration(configuration));
     });
 
 Task("Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new DotNetCoreTestSettings 
+
+        EnsureDirectoryExists(testResultsPath);
+
+        var settings = new XUnit2Settings 
         {
-            Configuration = configuration
+            NoAppDomain = true,
+            XmlReport = true,
+            HtmlReport = true,
+            OutputDirectory = testResultsPath,
         };
 
-        DotNetCoreTest(unitTestFile, settings);
+        XUnit2(testAssemblies, settings);
     });
 
-Task("xUnit")
-    .IsDependentOn("Assembly")
-    .IsDependentOn("Build")
-    .Does(() =>
+Task("Copy-Files")
+	.IsDependentOn("Build")
+	.Does(() =>
     {
-        var files = GetFiles("./test/**/bin/**/*.UnitTests.dll");
-
-        EnsureDirectoryExists(testArtifacts);
-
-        XUnit2(files, new XUnit2Settings 
+        EnsureDirectoryExists(artifactNet452);
+        
+        foreach (var project in projects.Where(x => x.Name.Contains("Cake.SqlPackage") && !x.Name.Contains("Test")))
         {
-            HtmlReport=true,
-            NoAppDomain = true,
-            OutputDirectory = testArtifacts
-        });
+            var files = GetFiles(project.Path.GetDirectory() + "/bin/" + configuration + "/Cake*.*");
+            CopyFiles(files, artifactNet452);
+        }
     });
 
 Task("Pack")
-    .IsDependentOn("Assembly")
     .IsDependentOn("Build")
-    .IsDependentOn("xUnit")
+    .IsDependentOn("Unit-Tests")
+    .IsDependentOn("Copy-Files")
     .Does(() =>
     {
-        var settings = new DotNetCorePackSettings
-        {
-            Configuration = configuration,
-            OutputDirectory = nupkgDirectory
-        };
+        EnsureDirectoryExists(artifactNet452);
 
-        DotNetCorePack(csprojFile, settings);
+        // .NET 4.5
+        NuGetPack("./.nuspec/Cake.SqlPackage.nuspec", new NuGetPackSettings {
+            Version = versionInfo.MajorMinorPatch,
+            BasePath = artifactNet452,
+            OutputDirectory = nupkgDirectory.Path.FullPath,
+            Symbols = false,
+            NoPackageAnalysis = true
+        });
     });
 
 Task("MyGet")
-	.IsDependentOn("Nuget-Restore")
     .IsDependentOn("Pack")
 	.WithCriteria(appVeyor)
     .Does(() =>
@@ -163,14 +161,13 @@ Task("MyGet")
         }
 
         // Push the package.
-        var packages = GetFiles(nupkgFiles);
+        var packages = GetFiles(nupkgDirectory.Path.FullPath + "/*.nupkg");
 
         foreach(var package in packages)
         {
 			Information("{0}", package);
 
-            NuGetPush(package, new NuGetPushSettings 
-            {
+            NuGetPush(package, new NuGetPushSettings {
                 Source = apiUrl,
                 ApiKey = apiKey
             });
@@ -179,7 +176,7 @@ Task("MyGet")
     .OnError(exception =>
     {
         Error(exception.Message);
-        Information("MyGet Task failed.");
+        Information("Publish-MyGet Task failed, but continuing with next Task...");
     });
 
 ////////////////////////////////////
