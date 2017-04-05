@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard1.6</TargetFramework>
+    <TargetFrameworks>net452;netstandard1.6</TargetFrameworks>
     <Version>0.1.0</Version>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageTags>SQL; DACPAC;</PackageTags>
@@ -9,11 +9,13 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netstandard1.6\Cake.SqlPackage.xml</DocumentationFile>
+    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_6;4_5</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cake" Version="0.19.1" />
     <PackageReference Include="Cake.Core" Version="0.19.1" />
+    <PackageReference Include="xunit.runner.console" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>
