@@ -80,7 +80,6 @@ Task("Build")
     .IsDependentOn("Restore")
     .Does(() =>
     {
-        var projects = GetFiles("./**/project.json");
         var settings = new DotNetCoreBuildSettings 
         {
             Configuration = configuration,
@@ -94,19 +93,19 @@ Task("Unit-Tests")
     .IsDependentOn("Build")
     .Does(() =>
     {
-        var projects = GetFiles("./test/**/project.json");
         var settings = new DotNetCoreTestSettings 
         {
             Configuration = configuration,
             NoBuild = true
         };
 
-        DotNetCoreTest("./test/**/", settings);
+        DotNetCoreTest("./test/Cake.SqlPackage.Tests/Cake.SqlPackage.Tests.csproj", settings);
     });
 
 Task("Pack")
     .IsDependentOn("Assembly")
     .IsDependentOn("Build")
+    .IsDependentOn("Unit-Tests")
     .Does(() =>
     {
         var projects = GetFiles("./**/project.json");
