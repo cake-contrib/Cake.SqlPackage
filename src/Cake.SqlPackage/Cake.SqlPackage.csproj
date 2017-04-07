@@ -1,21 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net452;netstandard1.6</TargetFrameworks>
+    <TargetFramework>net45</TargetFramework>
     <Version>0.1.0</Version>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageTags>SQL; DACPAC;</PackageTags>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\netstandard1.6\Cake.SqlPackage.xml</DocumentationFile>
-    <DefineConstants>TRACE;DEBUG;NETSTANDARD1_6;4_5</DefineConstants>
+    <DocumentationFile>bin\Debug\net45\Cake.SqlPackage.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Cake" Version="0.19.1" />
     <PackageReference Include="Cake.Core" Version="0.19.1" />
-    <PackageReference Include="xunit.runner.console" Version="2.2.0" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,4 +1,4 @@
 
 [assembly: AssemblyVersion("0.1.0.0")]
-[assembly: AssemblyInformationalVersion("0.1.0-sample.1+4.Branch.sample.Sha.bf460978b8ad17f67a66e86ca84c847702f4648d")]
+[assembly: AssemblyInformationalVersion("0.1.0-xunit.1+7.Branch.xunit.Sha.4611676a1ab84c2078137ed5eeb12f301510e977")]
 [assembly: AssemblyFileVersion("0.1.0.0")]
