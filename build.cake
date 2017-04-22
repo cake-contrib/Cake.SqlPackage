@@ -2,7 +2,7 @@
 // INSTALL TOOLS
 ////////////////////////////////////
 #tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.5"
-#tool "xunit.runner.console"
+#tool "nuget:https://www.nuget.org/api/v2?package=xunit.runner.console&version=2.2.0"
 
 ////////////////////////////////////
 // ARGUMENTS
@@ -42,7 +42,7 @@ Teardown(context =>
 {
 	Information("Target Cake Task: {0}", target);
     Information("Build Version: {0}", versionInfo.FullSemVer);
-    Information("Build Completion Time: {0}", DateTime.Now.TimeOfDay);
+    Information("Utc Completion Time: {0}", DateTime.UtcNow);
 });
 
 ////////////////////////////////////
