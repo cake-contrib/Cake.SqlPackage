@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+        <id>Cake.SqlPackage</id>
+        <authors>Rodney Littles II</authors>
+        <owners>Rodney Littles II</owners>
+        <description>
+            Cake AddIn that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
+        </description>
+        <licenseUrl>https://github.com/RLittlesII/Cake.SqlPackage/blob/master/LICENSE</licenseUrl>
+        <projectUrl>https://github.com/RLittlesII/Cake.SqlPackage</projectUrl>
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <copyright>Copyright (c) Rodney Littles II 2016</copyright>
+        <tags>Cake Script SQL DACPAC</tags>
+    </metadata>    
+    <files>
+        <file src="Cake.SqlPackage.dll" target="lib/net45" />
+        <file src="Cake.Core.dll" target="lib/net45" />
+    </files>
+</package>
