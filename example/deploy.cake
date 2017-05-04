@@ -46,7 +46,6 @@ Task("Sql-Package")
     {
         var settings = new SqlPackageSettings
         {
-            Action = SqlPackageAction.Publish,
             SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac"),
             Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml")
         };
