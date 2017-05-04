@@ -1,14 +1,19 @@
 ////////////////////////////////////
 // INSTALL TOOLS
 ////////////////////////////////////
-#tool "nuget:https://www.nuget.org/api/v2?package=SqlPackage.CommandLine&version=13.0.3485.2"
-#tool "nuget:https://www.nuget.org/api/v2?package=Microsoft.Data.Tools.Msbuild"
+#tool "nuget:https://www.nuget.org/api/v2?package=Microsoft.Data.Tools.Msbuild&version=10.0.61026"
 
-#addin "nuget:https://www.myget.org/F/cake-sqlpackage/api/v2?package=Cake.SqlPackage&version=0.1.0"
+////////////////////////////////////
+// INSTALL ADDINS
+////////////////////////////////////
+#addin "nuget:https://www.nuget.org/api/v2?package=Cake.SqlPackage&version=0.1.0"
 
 var target = Argument("target", "Deploy");
 var configuration = Argument("configuration", "Release");
 
+////////////////////////////////////
+// SETUP/TEAR DOWN
+////////////////////////////////////
 Setup(context =>
 {
 	Information("Target Cake Task: {0}", target);
@@ -17,7 +22,7 @@ Setup(context =>
 Teardown(context => 
 {
 	Information("Target Cake Task: {0}", target);
-    Information("Build Completion Time: {0}", DateTime.Now.TimeOfDay);
+    Information("Utc Completion Time: {0}", DateTime.UtcNow);
 });
 
 ////////////////////////////////////
@@ -42,7 +47,7 @@ Task("Sql-Package")
         var settings = new SqlPackageSettings
         {
             Action = SqlPackageAction.Publish,
-            SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeHouse.dacpac"),
+            SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac"),
             Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml")
         };
 
@@ -54,7 +59,6 @@ Task("Sql-Package")
 ////////////////////////////////////
 Task("Default")
     .IsDependentOn("Sql-Package");
-
 
 ////////////////////////////////////
 // EXECUTE
