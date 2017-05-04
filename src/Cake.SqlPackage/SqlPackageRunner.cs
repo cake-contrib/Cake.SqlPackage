@@ -6,6 +6,9 @@ using Cake.Core.Tooling;
 
 namespace Cake.SqlPackage
 {
+    /// <summary>
+    /// SqlPackage tool execution.
+    /// </summary>
     public class SqlPackageRunner : Tool<SqlPackageSettings>
     {
         /// <summary>
@@ -188,6 +191,8 @@ namespace Cake.SqlPackage
         /// <returns>The tool executable name.</returns>
         protected override IEnumerable<string> GetToolExecutableNames()
         {
+            //TODO: Add path to tool for known addin location
+            //nuget:https://www.nuget.org/api/v2?package=Microsoft.Data.Tools.Msbuild
             return new[] { "SqlPackage.exe" };
         }
     }

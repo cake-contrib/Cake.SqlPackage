@@ -26,11 +26,11 @@ http://cakebuild.net
 #>
 
 Param(
-    [string]$Script = "build.cake",
+    [string]$Script = "deploy.cake",
     [string]$Target = "Default",
     [string]$Configuration = "Release",
     [ValidateSet("Quiet", "Minimal", "Normal", "Verbose", "Diagnostic")]
-    [string]$Verbosity = "Normal",
+    [string]$Verbosity = "Verbose",
     [Alias("DryRun","Noop")]
     [switch]$Experimental,
     [switch]$WhatIf
@@ -70,7 +70,7 @@ if (!(Test-Path $NUGET_EXE)) {
 
 # Try download NuGet.exe if not exists
 if (!(Test-Path $NUGET_EXE)) {
-    Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/v3.5.0/nuget.exe -OutFile $NUGET_EXE
+    Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/v2.8.6/nuget.exe -OutFile $NUGET_EXE
 }
 
 # Make sure NuGet exists where we expect it.
@@ -93,7 +93,7 @@ if (Test-Path $PACKAGES_CONFIG)
 # Install just Cake if missing config
 else
 {
-    Invoke-Expression "&`"$NUGET_EXE`" install Cake -ExcludeVersion -PreRelease -Source `"https://www.myget.org/F/cake`""
+    Invoke-Expression "&`"$NUGET_EXE`" install Cake -ExcludeVersion -Source `"https://www.myget.org/F/cake`""
 }
 Pop-Location
 if ($LASTEXITCODE -ne 0)

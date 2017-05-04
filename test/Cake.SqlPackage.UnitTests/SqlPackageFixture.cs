@@ -1,7 +1,6 @@
-﻿using Cake.Core.IO;
-using Cake.Testing.Fixtures;
+﻿using Cake.Testing.Fixtures;
 
-namespace Cake.SqlPackage.Tests
+namespace Cake.SqlPackage.UnitTests
 {
     public class SqlPackageFixture : ToolFixture<SqlPackageSettings>
     {
