@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
@@ -5,15 +6,30 @@ using Cake.Core.Tooling;
 namespace Cake.SqlPackage
 {
     /// <summary>
-    /// Contains settings used by <see cref="SqlPackageRunner" />.
+    /// Contains settings used by SqlPackage runners.
     /// </summary>
-    /// <seealso cref="Cake.Core.Tooling.ToolSettings" />
+    /// <seealso cref="ToolSettings" />
     public class SqlPackageSettings : ToolSettings
     {
         /// <summary>
+        /// The action used to execute SqlPackage
+        /// </summary>
+        // ReSharper disable once InconsistentNaming
+        protected SqlPackageAction _action;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SqlPackageSettings"/> class.
+        /// </summary>
+        public SqlPackageSettings()
+        {
+            Properties = new ConcurrentDictionary<string, string>();
+            Variables = new ConcurrentDictionary<string, string>();
+        }
+
+        /// <summary>
         /// Specifies the action to be performed.
         /// </summary>
-        public SqlPackageAction Action { get; set; }
+        public SqlPackageAction Action => _action;
 
         /// <summary>
         /// Specifies the file path where the output files are generated.
@@ -126,23 +142,23 @@ namespace Cake.SqlPackage
         public string TargetUser { get; set; }
 
         /// <summary>
-        /// Specifies the Client Secret to be used in authenticating against Azure Key Vault.
-        /// </summary>
-        public string AzureSecret { get; set; }
-
-        /// <summary>
-        /// Specifies what authentication method will be used for accessing Azure Key Vault.
-        /// </summary>
-        public AzureKeyVaultAuthMethod? AzureKeyVaultAuthMethod { get; set; }
-
-        /// <summary>
-        /// Specifies the Client ID to be used in authenticating against Azure Key Vault.
-        /// </summary>
-        public string ClientId { get; set; }
-
-        /// <summary>
         /// Specifies a name value pair for an action specific property; {PropertyName}={Value}. Refer to the help for a specific action to see that action's property names.
         /// </summary>
-        public IDictionary<string,string> Properties { get;set; }
+       public IDictionary<string,string> Properties { get;set; }
+
+        /// <summary>
+        /// The DACPAC file contains the list of valid SQLCMD variables.
+        /// </summary>
+        public IDictionary<string, string> Variables { get; set; }
+
+        /// <summary>
+        /// Specifies if Universal Authentication should be used.
+        /// </summary>
+        public bool? UniversalAuthentication { get; set; }
+
+        /// <summary>
+        /// The tenant identifier
+        /// </summary>
+        public string TenantId;
     }
 }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{9950AB7A-B09D-4919-A3C9-2E2019434BF1}</ProjectGuid>
+    <ProjectGuid>{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cake.SqlPackage</RootNamespace>
@@ -30,6 +30,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <WarningsNotAsErrors>612,618</WarningsNotAsErrors>
+    <DocumentationFile>bin\Release\Cake.SqlPackage.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Cake.Core, Version=0.18.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -46,9 +48,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AzureKeyVaultAuthMethod.cs" />
+    <Compile Include="DeployReport\SqlPackageDeployReportRunner.cs" />
+    <Compile Include="DeployReport\SqlPackageDeployReportSettings.cs" />
+    <Compile Include="DriftReport\SqlPackageDriftReportRunner.cs" />
+    <Compile Include="DriftReport\SqlPackageDriftReportSettings.cs" />
+    <Compile Include="Export\SqlPackageExportRunner.cs" />
+    <Compile Include="Export\SqlPackageExportSettings.cs" />
+    <Compile Include="Extract\SqlPackageExtractRunner.cs" />
+    <Compile Include="Extract\SqlPackageExtractSettings.cs" />
+    <Compile Include="Import\SqlPackageImportRunner.cs" />
+    <Compile Include="Import\SqlPackageImportSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Publish\SqlPackagePublishSettings.cs" />
+    <Compile Include="Script\SqlPackageScriptRunner.cs" />
+    <Compile Include="Script\SqlPackageScriptSettings.cs" />
     <Compile Include="SqlPackageAction.cs" />
     <Compile Include="SqlPackageAliases.cs" />
+    <Compile Include="Publish\SqlPackagePublishRunner.cs" />
     <Compile Include="SqlPackageRunner.cs" />
     <Compile Include="SqlPackageSettings.cs" />
   </ItemGroup>

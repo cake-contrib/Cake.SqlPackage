@@ -5,7 +5,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C21A4716-3304-431E-8E6A-608FC4E151E5}</ProjectGuid>
+    <ProjectGuid>{F78FCC29-F187-4E19-A8CC-147E7E858DE1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cake.SqlPackage.UnitTests</RootNamespace>
@@ -69,9 +69,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeployReport\SqlPackageDeployReportFixture.cs" />
+    <Compile Include="DeployReport\SqlPackageDeployReportRunnerTests.cs" />
+    <Compile Include="DriftReport\SqlPackageDriftReportFixture.cs" />
+    <Compile Include="DriftReport\SqlPackageDriftReportRunnerTests.cs" />
+    <Compile Include="Export\SqlPackageExportFixture.cs" />
+    <Compile Include="Export\SqlPackageExportRunnerTests.cs" />
+    <Compile Include="Extract\SqlPackageExtractFixture.cs" />
+    <Compile Include="Extract\SqlPackageExtractRunnerTests.cs" />
+    <Compile Include="Import\SqlPackageImportFixture.cs" />
+    <Compile Include="Import\SqlPackageImportRunnerTests.cs" />
+    <Compile Include="PackageFixture.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SqlPackageFixture.cs" />
-    <Compile Include="SqlPackageRunnerTests.cs" />
+    <Compile Include="Publish\SqlPackagePublishFixture.cs" />
+    <Compile Include="Publish\SqlPackagePublishRunnerTests.cs" />
+    <Compile Include="Script\SqlPackageScriptFixture.cs" />
+    <Compile Include="Script\SqlPackageScriptRunnerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

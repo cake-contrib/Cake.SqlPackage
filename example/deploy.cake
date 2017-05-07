@@ -6,10 +6,15 @@
 ////////////////////////////////////
 // INSTALL ADDINS
 ////////////////////////////////////
-#addin "nuget:https://www.nuget.org/api/v2?package=Cake.SqlPackage&version=0.1.0"
+#addin "nuget:https://www.myget.org/F/cake-sqlpackage/api/v2?package=Cake.SqlPackage&version=0.1.1"
 
 var target = Argument("target", "Deploy");
 var configuration = Argument("configuration", "Release");
+
+var dacpac = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac");
+var bacpac = File("./export/CoffeeHouse.bacpac");
+var publishProfile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml");
+var connection = "Data Source=YOUR_SERVER;Initial Catalog=CoffeeHouse;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True";
 
 ////////////////////////////////////
 // SETUP/TEAR DOWN
@@ -40,25 +45,63 @@ Task("Build")
                 .SetConfiguration(configuration));
 	});
 
-Task("Sql-Package")
+Task("Export")
+    .IsDependentOn("Build")
+    .Does(() =>
+    {
+        EnsureDirectoryExists("./export");
+
+        SqlPackageExport(settings =>
+        {
+            settings.SourceConnectionString = connection;
+            settings.Profile = publishProfile;
+            settings.TargetFile = bacpac;
+        });
+    });
+
+Task("Import")
+    .IsDependentOn("Build")
+    .Does(() =>
+    {
+        SqlPackageImport(settings => 
+        {
+            settings.SourceFile = bacpac;
+            settings.TargetConnectionString = connection;
+        });
+    });
+
+Task("Script")
+    .IsDependentOn("Build")
+    .Does(() =>
+    {
+        EnsureDirectoryExists("./scripts");
+
+        SqlPackageScript(settings => 
+        {
+            settings.SourceFile = dacpac;
+            settings.Profile = publishProfile;
+            settings.OutputPath = File("./scripts/CoffeeHouse.sql");
+        });
+    });
+
+Task("Publish")
 	.IsDependentOn("Build")
     .Does(() =>
     {
-        var settings = new SqlPackageSettings
+        SqlPackagePublish(settings => 
         {
-            Action = SqlPackageAction.Publish,
-            SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac"),
-            Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml")
-        };
-
-        SqlPackage(settings);
+            settings.SourceFile = dacpac;
+            settings.Profile = publishProfile;
+        });
     });
 
 ////////////////////////////////////
 // DEPENDENCIES
 ////////////////////////////////////
 Task("Default")
-    .IsDependentOn("Sql-Package");
+    .IsDependentOn("Script")
+    .IsDependentOn("Publish")
+    .IsDependentOn("Export");
 
 ////////////////////////////////////
 // EXECUTE

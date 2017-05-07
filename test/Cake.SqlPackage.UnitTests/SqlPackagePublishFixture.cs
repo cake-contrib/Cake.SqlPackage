@@ -7,7 +7,7 @@ namespace Cake.SqlPackage.UnitTests
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Cake.Testing.Fixtures.ToolFixture`1" /> class.
         /// </summary>
-        public SqlPackageFixture() 
+        public SqlPackageFixture()
             : base("SqlPackage.exe")
         {
             Settings.WorkingDirectory = "/Working";
