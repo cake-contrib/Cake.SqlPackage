@@ -8,13 +8,6 @@
 
 ## Expected output
 ``` powershell
-----------------------------------------
-Setup
-----------------------------------------
-Executing custom setup action...
-Target Cake Task: Default
-
-========================================
 Build
 ========================================
 Executing task: Build
@@ -24,38 +17,44 @@ Copyright (C) Microsoft Corporation. All rights reserved.
 Finished executing task: Build
 
 ========================================
-Sql-Package
+Script
 ========================================
-Executing task: Sql-Package
-Publishing to database 'CoffeeHouse' on server 'YOUR SERVER NAME'.
+Executing task: Script
+Generating publish script for database 'CoffeeHouse' on server 'YOUR_SERVER'.
+Successfully generated script to file C:\Source\github\Cake.SqlPackage\example\scripts\CoffeeHouse.sql
+.     
+Finished executing task: Script
+========================================
+Publish
+========================================
+Executing task: Publish
+Publishing to database 'CoffeeHouse' on server 'YOUR_SERVER'.
 Initializing deployment (Start)
 Initializing deployment (Complete)
 Analyzing deployment plan (Start)
 Analyzing deployment plan (Complete)
 Updating database (Start)
 Update complete.
-Updating database (Complete)
+Updating database (Complete) 
 Successfully published database.
-Finished executing task: Sql-Package
-
+Finished executing task: Publish
 ========================================
-Default
+Export
 ========================================
-Executing task: Default
-Finished executing task: Default
-
-----------------------------------------
-Teardown
-----------------------------------------
-Executing custom teardown action...
-Target Cake Task: Default
-Build Completion Time: 21:47:32.7218769
-
-Task                          Duration
---------------------------------------------------
-Build                         00:00:03.0614776
-Sql-Package                   00:00:08.3471048
-Default                       00:00:00.0014405
---------------------------------------------------
-Total:                        00:00:11.4100229
+Executing task: Export
+Connecting to database 'CoffeeHouse' on server 'YOUR_SERVER'.
+Extracting schema
+Extracting schema from database
+Resolving references in schema model
+Validating schema model
+Validating schema model for data package
+Validating schema
+Exporting data from database
+Exporting data
+Processing Export.
+Processing Table '[dbo].[CoffeeBeans]'.
+Processing Table '[dbo].[CoffeeBlends]'.
+Successfully exported database and saved it to file 'C:\Source\github\Cake.SqlPackage\example\export\C
+offeeHouse.bacpac'.
+Finished executing task: Export
 ```

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
@@ -9,8 +10,14 @@ namespace Cake.SqlPackage
     /// <summary>
     /// SqlPackage tool execution.
     /// </summary>
-    public class SqlPackageRunner : Tool<SqlPackageSettings>
+    public abstract class SqlPackageRunner<T> : Tool<T>
+        where T : SqlPackageSettings
     {
+        /// <summary>
+        /// The Cake environment in context.
+        /// </summary>
+        public ICakeEnvironment Environment { get; set; }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="T:Cake.Core.Tooling.Tool`1" /> class.
         /// </summary>
@@ -18,164 +25,54 @@ namespace Cake.SqlPackage
         /// <param name="environment">The environment.</param>
         /// <param name="processRunner">The process runner.</param>
         /// <param name="tools">The tool locator.</param>
-        public SqlPackageRunner(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner, IToolLocator tools)
+        protected SqlPackageRunner(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner, IToolLocator tools)
             : base(fileSystem, environment, processRunner, tools)
         {
             Environment = environment;
         }
 
         /// <summary>
-        /// The Cake environment in context.
+        /// Builds the common SqlPackage arguments.
         /// </summary>
-        public ICakeEnvironment Environment { get; set; }
-
-
-        /// <summary>
-        /// Runs SqlPackage with the specified settings.
-        /// </summary>
-        /// <param name="settings"></param>
-        public void Run(SqlPackageSettings settings)
+        /// <param name="settings">The settings.</param>
+        /// <returns></returns>
+        protected ProcessArgumentBuilder BuildSqlPackageArguments(T settings)
         {
-            if(settings == null)
+            var builder = new ProcessArgumentBuilder();
+
+            var properties = BuildProperties(settings);
+            properties.CopyTo(builder);
+
+            switch (settings.Action)
             {
-                throw new ArgumentNullException(nameof(settings));
+                case SqlPackageAction.Publish:
+                case SqlPackageAction.DeployReport:
+                case SqlPackageAction.Script:
+                    var variables = BuildVariables(settings);
+                    variables.CopyTo(builder);
+                    break;
+                case SqlPackageAction.Extract:
+                case SqlPackageAction.DriftReport:
+                case SqlPackageAction.Export:
+                case SqlPackageAction.Import:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
 
-            Run(settings, GetArguments(settings));
+            return builder;
         }
 
-        private ProcessArgumentBuilder GetArguments(SqlPackageSettings settings)
+        /// <summary>
+        /// Builds the <see cref="SqlPackageAction"/>.
+        /// </summary>
+        /// <param name="settings">The settings.</param>
+        /// <returns></returns>
+        protected ProcessArgumentBuilder CreateBuilder(T settings)
         {
             var builder = new ProcessArgumentBuilder();
 
             builder.Append($"/Action:{settings.Action}");
-
-            if(settings.OutputPath != null)
-            {
-                builder.Append($"/OutputPath:\"{settings.OutputPath.MakeAbsolute(Environment.WorkingDirectory).FullPath}\"");
-            }
-
-            if(settings.OverwriteFiles.HasValue)
-            {
-                builder.Append($"/OverwriteFiles:{settings.OverwriteFiles}");
-            }
-
-            if(settings.Profile != null)
-            {
-                builder.Append($"/Profile:\"{settings.Profile}\"");
-            }
-
-            if(settings.Quiet.HasValue)
-            {
-                builder.Append($"/Quiet:{settings.Quiet}");
-            }
-
-            if(!string.IsNullOrEmpty(settings.ClientId))
-            {
-                builder.Append($"/ClientId:{settings.ClientId}");
-            }
-
-            if (!string.IsNullOrEmpty(settings.AzureSecret))
-            {
-                builder.Append($"/Secret:{settings.AzureSecret}");
-            }
-
-            if (settings.AzureKeyVaultAuthMethod.HasValue)
-            {
-                builder.Append($"/AzureKeyVaultAuthMethod:{settings.AzureKeyVaultAuthMethod}");
-            }
-
-            if (!string.IsNullOrEmpty(settings.SourceConnectionString))
-            {
-                builder.Append($"/SourceConnectionString:{settings.SourceConnectionString}");
-            }
-            else if (settings.SourceFile != null)
-            {
-                builder.Append($"/SourceFile:\"{settings.SourceFile.MakeAbsolute(Environment.WorkingDirectory).FullPath}\"");
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(settings.SourceDatabaseName))
-                {
-                    builder.Append($"/SourceDatabaseName:{settings.SourceDatabaseName}");
-                }
-
-                if (settings.SourceEncryptConnection.HasValue)
-                {
-                    builder.Append($"/SourceEncryptConnection:{settings.SourceEncryptConnection}");
-                }
-
-                if (!string.IsNullOrEmpty(settings.SourcePassword))
-                {
-                    builder.Append($"/SourcePassword:{settings.SourcePassword}");
-                }
-
-                if (!string.IsNullOrEmpty(settings.SourceServerName))
-                {
-                    builder.Append($"/SourceServerName:{settings.SourceServerName}");
-                }
-
-                if (settings.SourceTimeout > 0)
-                {
-                    builder.Append($"/SourceTimeout:{settings.SourceTimeout}");
-                }
-
-                if (settings.SourceTrustServerCertificate.HasValue)
-                {
-                    builder.Append($"/SourceTrustServerCertificate:{settings.SourceTrustServerCertificate}");
-                }
-
-                if (!string.IsNullOrEmpty(settings.SourceUser))
-                {
-                    builder.Append($"/SourceUser:{settings.SourceUser}");
-                }
-            }
-
-            if (!string.IsNullOrEmpty(settings.TargetConnectionString))
-            {
-                builder.Append($"/TargetConnectionString:{settings.TargetConnectionString}");
-            }
-            else if (settings.TargetFile != null)
-            {
-                builder.Append($"/TargetFile:\"{settings.TargetFile.MakeAbsolute(Environment.WorkingDirectory).FullPath}\"");
-            }
-            else
-            {
-                if (!string.IsNullOrEmpty(settings.TargetDatabaseName))
-                {
-                    builder.Append($"/TargetDatabaseName:{settings.TargetDatabaseName}");
-                }
-
-                if (settings.TargetEncryptConnection.HasValue)
-                {
-                    builder.Append($"/TargetEncryptConnection:{settings.TargetEncryptConnection}");
-                }
-
-                if (!string.IsNullOrEmpty(settings.TargetPassword))
-                {
-                    builder.Append($"/TargetPassword:{settings.TargetPassword}");
-                }
-
-                if (!string.IsNullOrEmpty(settings.TargetServerName))
-                {
-                    builder.Append($"/TargetServerName:{settings.TargetServerName}");
-                }
-
-                if (settings.TargetTimeout > 0)
-                {
-                    builder.Append($"/TargetTimeout:{settings.TargetTimeout}");
-                }
-
-                if (settings.TargetTrustServerCertificate.HasValue)
-                {
-                    builder.Append($"/TargetTrustServerCertificate:{settings.TargetTrustServerCertificate}");
-                }
-
-                if (!string.IsNullOrEmpty(settings.TargetUser))
-                {
-                    builder.Append($"/TargetUser:{settings.TargetUser}");
-                }
-            }
 
             return builder;
         }
@@ -191,9 +88,39 @@ namespace Cake.SqlPackage
         /// <returns>The tool executable name.</returns>
         protected override IEnumerable<string> GetToolExecutableNames()
         {
-            //TODO: Add path to tool for known addin location
-            //nuget:https://www.nuget.org/api/v2?package=Microsoft.Data.Tools.Msbuild
             return new[] { "SqlPackage.exe" };
+        }
+
+        private ProcessArgumentBuilder BuildVariables(SqlPackageSettings settings)
+        {
+            var builder = new ProcessArgumentBuilder();
+
+            if (settings.Variables.Any())
+            {
+                foreach (var variable in settings.Variables)
+                {
+                    builder.Append($"/p:{variable.Key}={variable.Value}");
+                }
+            }
+
+            return builder;
+        }
+
+        private ProcessArgumentBuilder BuildProperties(SqlPackageSettings settings)
+        {
+            var builder = new ProcessArgumentBuilder();
+
+            if (!settings.Properties.Any())
+            {
+                return builder;
+            }
+
+            foreach (var property in settings.Properties)
+            {
+                builder.Append($"/p:{property.Key}={property.Value}");
+            }
+
+            return builder;
         }
     }
 }
