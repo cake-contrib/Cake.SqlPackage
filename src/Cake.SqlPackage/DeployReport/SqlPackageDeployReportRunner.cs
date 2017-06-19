@@ -8,8 +8,7 @@ namespace Cake.SqlPackage
     /// <summary>
     /// SqlPackage tool execution for deployreport action.
     /// </summary>
-    /// <seealso cref="SqlPackageRunner{SqlPackageDeployReportSettings}" />
-    public class SqlPackageDeployReportRunner : SqlPackageRunner<SqlPackageDeployReportSettings>
+    internal class SqlPackageDeployReportRunner : SqlPackageRunner<SqlPackageDeployReportSettings>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlPackageDeployReportRunner"/> class.
@@ -156,9 +155,8 @@ namespace Cake.SqlPackage
 
             // Copy common settings to builder
             var commonBuilder = BuildSqlPackageArguments(settings);
-            commonBuilder.CopyTo(builder);
 
-            return builder;
+            return CopyArgumentsTo(commonBuilder, builder);
         }
     }
 }

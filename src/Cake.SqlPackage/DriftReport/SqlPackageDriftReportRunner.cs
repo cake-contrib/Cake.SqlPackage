@@ -8,8 +8,7 @@ namespace Cake.SqlPackage
     /// <summary>
     /// SqlPackage tool execution for driftreport action.
     /// </summary>
-    /// <seealso cref="SqlPackageRunner{SqlPackageDriftReportSettings}" />
-    public class SqlPackageDriftReportRunner : SqlPackageRunner<SqlPackageDriftReportSettings>
+    internal class SqlPackageDriftReportRunner : SqlPackageRunner<SqlPackageDriftReportSettings>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlPackageDriftReportRunner"/> class.
@@ -29,7 +28,6 @@ namespace Cake.SqlPackage
         /// <summary>
         /// Runs SqlPackage with the specified extract settings.
         /// </summary>
-        /// <param name="settings">The SQL package extract settings.</param>
         public void DriftReport(SqlPackageDriftReportSettings settings)
         {
             if (settings == null)
@@ -113,9 +111,8 @@ namespace Cake.SqlPackage
 
             // Copy common settings to builder
             var commonBuilder = BuildSqlPackageArguments(settings);
-            commonBuilder.CopyTo(builder);
 
-            return builder;
+            return CopyArgumentsTo(commonBuilder, builder);
         }
     }
 }

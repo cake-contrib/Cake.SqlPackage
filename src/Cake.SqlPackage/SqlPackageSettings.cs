@@ -11,11 +11,10 @@ namespace Cake.SqlPackage
     /// <seealso cref="ToolSettings" />
     public class SqlPackageSettings : ToolSettings
     {
-        /// <summary>
-        /// The action used to execute SqlPackage
-        /// </summary>
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
         // ReSharper disable once InconsistentNaming
         protected SqlPackageAction _action;
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlPackageSettings"/> class.
@@ -27,7 +26,7 @@ namespace Cake.SqlPackage
         }
 
         /// <summary>
-        /// Specifies the action to be performed.
+        /// The action used to execute SqlPackage
         /// </summary>
         public SqlPackageAction Action => _action;
 

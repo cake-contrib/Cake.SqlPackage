@@ -8,8 +8,7 @@ namespace Cake.SqlPackage
     /// <summary>
     /// SqlPackage tool execution for export action.
     /// </summary>
-    /// <seealso cref="SqlPackageRunner{SqlPackageExportSettings}" />
-    public class SqlPackageExportRunner : SqlPackageRunner<SqlPackageExportSettings>
+    internal class SqlPackageExportRunner : SqlPackageRunner<SqlPackageExportSettings>
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SqlPackageExportRunner"/> class.
@@ -118,9 +117,8 @@ namespace Cake.SqlPackage
 
             // Copy common settings to builder
             var commonBuilder = BuildSqlPackageArguments(settings);
-            commonBuilder.CopyTo(builder);
 
-            return builder;
+            return CopyArgumentsTo(commonBuilder, builder);
         }
     }
 }
