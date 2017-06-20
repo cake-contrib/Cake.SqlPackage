@@ -3,7 +3,6 @@
     /// <summary>
     /// Contains settings used by <see cref="SqlPackagePublishSettings" />.
     /// </summary>
-    /// <seealso cref="Cake.SqlPackage.SqlPackageSettings" />
     public class SqlPackagePublishSettings : SqlPackageSettings
     {
         /// <summary>

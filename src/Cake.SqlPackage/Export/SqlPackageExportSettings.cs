@@ -3,7 +3,6 @@
     /// <summary>
     /// Contains settings used by <see cref="SqlPackageExportSettings" />.
     /// </summary>
-    /// <seealso cref="SqlPackageSettings" />
     public class SqlPackageExportSettings : SqlPackageSettings
     {
         /// <summary>
