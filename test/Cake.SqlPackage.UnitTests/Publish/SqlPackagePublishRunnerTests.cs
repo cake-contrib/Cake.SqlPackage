@@ -485,7 +485,7 @@ namespace Cake.SqlPackage.UnitTests
                 var result = fixture.Run();
 
                 //Then
-                Assert.Equal($"/Action:Publish /p:{key}={value}", result.Args);
+                Assert.Equal($"/Action:Publish /v:{key}={value}", result.Args);
             }
 
             [Fact]
@@ -500,7 +500,7 @@ namespace Cake.SqlPackage.UnitTests
                 var result = fixture.Run();
 
                 //Then
-                Assert.Equal($"/Action:Publish /OverwriteFiles:True /p:CommandTimeout=120", result.Args);
+                Assert.Equal($"/Action:Publish /OverwriteFiles:True /v:CommandTimeout=120", result.Args);
             }
         }
     }
