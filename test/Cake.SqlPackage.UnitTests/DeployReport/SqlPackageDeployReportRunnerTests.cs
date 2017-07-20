@@ -457,7 +457,7 @@ namespace Cake.SqlPackage.UnitTests
                 var result = fixture.Run();
 
                 //Then
-                Assert.Equal($"/Action:DeployReport /p:{key}={value}", result.Args);
+                Assert.Equal($"/Action:DeployReport /v:{key}={value}", result.Args);
             }
 
             [Fact]
@@ -472,7 +472,7 @@ namespace Cake.SqlPackage.UnitTests
                 var result = fixture.Run();
 
                 //Then
-                Assert.Equal($"/Action:DeployReport /OverwriteFiles:True /p:CommandTimeout=120", result.Args);
+                Assert.Equal($"/Action:DeployReport /OverwriteFiles:True /v:CommandTimeout=120", result.Args);
             }
         }
     }

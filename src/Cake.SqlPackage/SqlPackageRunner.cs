@@ -106,7 +106,7 @@ namespace Cake.SqlPackage
             {
                 foreach (var variable in settings.Variables)
                 {
-                    builder.Append($"/p:{variable.Key}={variable.Value}");
+                    builder.Append($"/v:{variable.Key}={variable.Value}");
                 }
             }
 
