@@ -9,12 +9,15 @@
         </description>
         <licenseUrl>https://github.com/RLittlesII/Cake.SqlPackage/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/RLittlesII/Cake.SqlPackage</projectUrl>
+        <iconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
-        <copyright>Copyright (c) Rodney Littles II 2016</copyright>
+        <copyright>Copyright (c) Rodney Littles II 2017</copyright>
         <tags>Cake Script SQL DACPAC</tags>
     </metadata>    
     <files>
-        <file src="Cake.SqlPackage.dll" target="lib/net45" />
+       <file src="Cake.SqlPackage.dll" target="lib/net45" /> 
+        <file src="Cake.SqlPackage.pdb" target="lib/net45" /> 
+        <file src="Cake.SqlPackage.xml" target="lib/net45" /> 
         <file src="Cake.Core.dll" target="lib/net45" />
     </files>
 </package>
