@@ -4,6 +4,8 @@
 #tool "nuget:https://www.nuget.org/api/v2?package=GitVersion.CommandLine&version=3.6.5"
 #tool "nuget:https://www.nuget.org/api/v2?package=xunit.runner.console&version=2.2.0"
 
+#load "version.cake"
+
 ////////////////////////////////////
 // ARGUMENTS
 ////////////////////////////////////
@@ -67,21 +69,53 @@ Task("Restore")
         NuGetRestore(solutionPath);
     });
 
-Task("Assembly")
-    .IsDependentOn("Restore")
-    .Does(() => 
-    {
-        var gitVersionSettings = new GitVersionSettings 
-        {
-            UpdateAssemblyInfoFilePath = "./SolutionInfo.cs",
-            UpdateAssemblyInfo = true
-        };
+Task("Version")
+	.Does(() =>
+	{
+		string version = null;
+		string semVersion = null;
+		string milestone = null;
+		string informationalVersion = null;
+		string nugetVersion = null;
 
-         GitVersion(gitVersionSettings);
-    });
+		if(IsRunningOnWindows())
+		{
+			if(AppVeyor.IsRunningOnAppVeyor)
+			{
+				GitVersion(new GitVersionSettings
+				{
+					UpdateAssemblyInfoFilePath = "../SolutionInfo.cs",
+					UpdateAssemblyInfo = true,
+					OutputType = GitVersionOutput.BuildServer
+                });
+
+				version = EnvironmentVariable("GitVersion_MajorMinorPatch");
+				semVersion = EnvironmentVariable("GitVersion_LegacySemVerPadded");
+				informationalVersion = EnvironmentVariable("GitVersion_InformationalVersion");
+				milestone = string.Concat(version);
+				nugetVersion = EnvironmentVariable("GitVersion_NuGetVersion");
+			}
+
+			GitVersion assertedVersions = GitVersion(new GitVersionSettings
+			{
+				UpdateAssemblyInfoFilePath = "SolutionInfo.cs",
+				UpdateAssemblyInfo = true,
+				OutputType = GitVersionOutput.Json,
+			});
+
+			version = assertedVersions.MajorMinorPatch;
+			semVersion = assertedVersions.LegacySemVerPadded;
+			informationalVersion = assertedVersions.InformationalVersion;
+			milestone = string.Concat(version);
+			nugetVersion = assertedVersions.NuGetVersion;
+		}
+
+		BuildVersion.SetVersion(version, semVersion, milestone, informationalVersion, nugetVersion);
+	});
 
 Task("Build")
 	.IsDependentOn("Restore")
+    .IsDependentOn("Version")
     .Does(() =>
     {
         MSBuild(solutionPath, settings =>
@@ -133,7 +167,7 @@ Task("Pack")
 
         // .NET 4.5
         NuGetPack("./.nuspec/Cake.SqlPackage.nuspec", new NuGetPackSettings {
-            Version = versionInfo.MajorMinorPatch,
+            Version = BuildVersion.NuGetVersion,
             BasePath = artifactNet452,
             OutputDirectory = nupkgDirectory.Path.FullPath,
             Symbols = false,
