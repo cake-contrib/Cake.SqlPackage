@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26228.10
+VisualStudioVersion = 15.0.26430.15
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{FC602C31-A856-4936-82F8-A1CC9B853499}"
 EndProject
@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		GitVersion.yml = GitVersion.yml
 		LICENSE = LICENSE
 		README.md = README.md
+		recipe.cake = recipe.cake
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cake.SqlPackage", "src\Cake.SqlPackage\Cake.SqlPackage.csproj", "{2FCEED7D-3CDC-4B24-8013-8058AAA0020A}"

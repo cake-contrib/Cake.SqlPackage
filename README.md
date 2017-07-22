@@ -1,14 +1,18 @@
 # Cake.SqlPackage
-Cake AddIn that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
+Cake addin that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
+
+[![License](http://img.shields.io/:license-mit-blue.svg)](https://rlittlesii.mit-license.org/) 
 
 ## Build Status
-| Branch | Status |
-| :--: | :--: |
-| Master | [![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/master?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/master) |
-| Development | [![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/develop?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/develop)
 
-| License |
+|Develop|Master|
+|:--:|:--:|
+|[![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/develop?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/develop?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/master)|
+
+| Nuget |
 | :--: |
-| [![License](http://img.shields.io/:license-mit-blue.svg)](https://rlittlesii.mit-license.org/) |
+| [![nuget](https://img.shields.io/nuget/vpre/Cake.SqlPackage.svg)](https://www.nuget.org/packages/Cake.SqlPackage) |
+
 
 ## [Example](https://github.com/RLittlesII/Cake.SqlPackage/tree/develop/example)
+
