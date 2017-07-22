@@ -6,7 +6,7 @@
 ////////////////////////////////////
 // INSTALL ADDINS
 ////////////////////////////////////
-#addin "nuget:https://www.myget.org/F/cake-sqlpackage/api/v2?package=Cake.SqlPackage&version=0.1.1"
+#addin "nuget:https://www.myget.org/F/cake-sqlpackage/api/v2?package=Cake.SqlPackage&version=0.2.0-alpha0008"
 
 var target = Argument("target", "Deploy");
 var configuration = Argument("configuration", "Release");

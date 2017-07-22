@@ -1,14 +1,16 @@
-﻿using System;
-using Cake.Core;
+﻿using Cake.Core;
 using Cake.Core.Annotations;
+using System;
 
 namespace Cake.SqlPackage
 {
     /// <summary>
-    /// <para>Contains functionality related to <see href="https://github.com/dotnet/cli">SqlPackage</see>.</para>
+    /// <para>Contains functionality related to <see href="https://msdn.microsoft.com/library/hh550080(vs.103).aspx">SqlPackage</see>.</para>
     /// <para>
-    /// In order to use the commands for this alias, the SqlPackage tool will need to be installed on the machine where
-    /// the Cake script is being executed.
+    /// In order to use the commands for this addin, you will need to include the following in your build.cake file to download and reference from NuGet.org:
+    /// <code>
+    /// #addin Cake.SqlPackage
+    /// </code>
     /// </para>
     /// </summary>
     [CakeAliasCategory("SqlPackage")]
@@ -46,7 +48,7 @@ namespace Cake.SqlPackage
         /// <param name="configurationAction">The configuration action.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageExtract(settings => 
+        ///     SqlPackageExtract(settings =>
         ///     {
         ///         settings.Quiet = true;
         ///     });
@@ -105,8 +107,8 @@ namespace Cake.SqlPackage
         /// <param name="configurationAction">The configuration action.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackagePublish(settings => 
-        ///     {            
+        ///     SqlPackagePublish(settings =>
+        ///     {
         ///         settings.SourceFile = File("database.dacpac");
         ///         settings.Profile = File("./profile.publish.xml");
         ///     });
@@ -235,7 +237,7 @@ namespace Cake.SqlPackage
         /// <param name="configurationAction">The configuration action.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageImport(settings => 
+        ///     SqlPackageImport(settings =>
         ///     {
         ///         settings.SourceFile = File("database.bacpac");
         ///         settings.TargetConnectionString = connectionString;
@@ -295,7 +297,7 @@ namespace Cake.SqlPackage
         /// <param name="configurationAction">The configuration action.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageDeployReport(settings => 
+        ///     SqlPackageDeployReport(settings =>
         ///     {
         ///         settings.Quiet = true;
         ///     });
@@ -354,7 +356,7 @@ namespace Cake.SqlPackage
         /// <param name="configurationAction">The configuration action.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageDriftReport(settings => 
+        ///     SqlPackageDriftReport(settings =>
         ///     {
         ///         settings.Quiet = true;
         ///     });
@@ -388,7 +390,7 @@ namespace Cake.SqlPackage
         /// <param name="settings">The settings.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageScript(settings => 
+        ///     SqlPackageScript(settings =>
         ///     {
         ///        settings.SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac");
         ///        settings.Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml");
@@ -416,7 +418,7 @@ namespace Cake.SqlPackage
         /// <param name="configurationAction">The configuration action.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageScript(settings => 
+        ///     SqlPackageScript(settings =>
         ///     {
         ///         settings.SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac");
         ///         settings.Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml");
