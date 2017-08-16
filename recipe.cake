@@ -2,10 +2,13 @@
 
 Environment.SetVariableNames();
 
-BuildParameters.SetParameters(context: Context, 
-                            buildSystem: BuildSystem,
-                            sourceDirectoryPath: "./",
+BuildParameters.SetParameters(context: Context,
                             title: "Cake.SqlPackage",
+                            buildSystem: BuildSystem,
+                            sourceDirectoryPath: "./src",
+                            testDirectoryPath: "./test",
+							testFilePattern: "/**/*UnitTests.dll",
+							solutionFilePath: "./Cake.SqlPackage.sln",
                             repositoryOwner: "RLittlesII",
                             repositoryName: "Cake.SqlPackage",
                             appVeyorAccountName: "RLittlesII",
