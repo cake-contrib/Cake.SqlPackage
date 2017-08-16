@@ -114,6 +114,11 @@ namespace Cake.SqlPackage
             else if (settings.TargetFile != null)
             {
                 builder.Append($"/{nameof(settings.TargetFile)}:\"{settings.TargetFile.MakeAbsolute(Environment.WorkingDirectory).FullPath}\"");
+
+                if (!string.IsNullOrEmpty(settings.TargetDatabaseName))
+                {
+                    builder.Append($"/{nameof(settings.TargetDatabaseName)}:{settings.TargetDatabaseName}");
+                }
             }
             else
             {
