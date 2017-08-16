@@ -5,7 +5,7 @@
         <authors>Rodney Littles II</authors>
         <owners>Rodney Littles II</owners>
         <description>
-            Cake AddIn that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
+            Cake addin that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
         </description>
         <licenseUrl>https://github.com/RLittlesII/Cake.SqlPackage/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/RLittlesII/Cake.SqlPackage</projectUrl>
@@ -17,7 +17,6 @@
     <files>
        <file src="Cake.SqlPackage.dll" target="lib/net45" /> 
         <file src="Cake.SqlPackage.pdb" target="lib/net45" /> 
-        <file src="Cake.SqlPackage.xml" target="lib/net45" /> 
-        <file src="Cake.Core.dll" target="lib/net45" />
+        <file src="Cake.SqlPackage.xml" target="lib/net45" />
     </files>
 </package>

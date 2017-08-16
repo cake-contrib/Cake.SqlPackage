@@ -375,7 +375,7 @@ namespace Cake.SqlPackage.UnitTests
             }
 
             [Fact]
-            public void Should_Not_Add_Target_Properties_If_Target_File_Provided()
+            public void Should_Not_Add_Most_Target_Properties_If_Target_File_Provided()
             {
                 // Given
                 var fixture = new SqlPackageScriptFixture();
@@ -386,13 +386,27 @@ namespace Cake.SqlPackage.UnitTests
 
                 // Then
                 Assert.DoesNotContain("/TargetConnectionString:", result.Args);
-                Assert.DoesNotContain("/TargetDatabaseName:", result.Args);
                 Assert.DoesNotContain("/TargetEncryptConnection:", result.Args);
                 Assert.DoesNotContain("/TargetPassword:", result.Args);
                 Assert.DoesNotContain("/TargetServerName:", result.Args);
                 Assert.DoesNotContain("/TargetTimeout:", result.Args);
                 Assert.DoesNotContain("/TargetTrustServerCertificate:", result.Args);
                 Assert.DoesNotContain("/TargetUser:", result.Args);
+            }
+
+            [Fact]
+            public void Should_Still_Add_TargetDatabaseName_If_Target_File_Provided()
+            {
+                // Given
+                var fixture = new SqlPackageScriptFixture();
+                fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
+                fixture.Settings.TargetDatabaseName = "mongoose";
+
+                // When
+                var result = fixture.Run();
+
+                // Then
+                Assert.Contains("/TargetDatabaseName:mongoose", result.Args);
             }
 
             [Fact]

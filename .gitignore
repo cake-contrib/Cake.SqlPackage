@@ -254,6 +254,8 @@ paket-files/
 
 # CAKE - C# Make
 tools/
+!tools/packages.config
+BuildArtifacts/
 
 # VSCode
 .vscode/
