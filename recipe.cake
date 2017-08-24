@@ -7,7 +7,7 @@ BuildParameters.SetParameters(context: Context,
                             buildSystem: BuildSystem,
                             sourceDirectoryPath: "./src",
                             testDirectoryPath: "./test",
-							testFilePattern: "/**/*UnitTests.dll",
+							testFilePattern: "/**/*UnitTests.csproj",
 							solutionFilePath: "./Cake.SqlPackage.sln",
                             repositoryOwner: "RLittlesII",
                             repositoryName: "Cake.SqlPackage",
@@ -18,4 +18,10 @@ BuildParameters.SetParameters(context: Context,
 
 BuildParameters.PrintParameters(Context);
 
-Build.Run();
+ToolSettings.SetToolSettings(context: Context,
+                            dupFinderExcludePattern: new string[] { BuildParameters.RootDirectoryPath + "/src/Cake.SqlPackage.Tests/*.cs" },
+                            testCoverageFilter: "+[*]* -[xunit.*]* -[Cake.Core]* -[Cake.Testing]* -[*.Tests]* -[FakeItEasy]*",
+                            testCoverageExcludeByAttribute: "*.ExcludeFromCodeCoverage*",
+                            testCoverageExcludeByFile: "*/*Designer.cs;*/*.g.cs;*/*.g.i.cs");
+
+Build.RunDotNetCore();
