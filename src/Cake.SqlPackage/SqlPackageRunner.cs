@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
+
+[assembly: InternalsVisibleTo("Cake.SqlPackage.UnitTests")]
 
 namespace Cake.SqlPackage
 {
@@ -36,11 +39,13 @@ namespace Cake.SqlPackage
                     var variables = BuildVariables(settings);
                     CopyArgumentsTo(variables, builder);
                     break;
+
                 case SqlPackageAction.Extract:
                 case SqlPackageAction.DriftReport:
                 case SqlPackageAction.Export:
                 case SqlPackageAction.Import:
                     break;
+
                 default:
                     throw new ArgumentOutOfRangeException();
             }
@@ -131,14 +136,14 @@ namespace Cake.SqlPackage
         }
 
         /// <summary>
-            /// Initializes a new instance of the <see cref="T:Cake.Core.Tooling.Tool`1" /> class.
-            /// </summary>
-            /// <param name="fileSystem">The file system.</param>
-            /// <param name="environment">The environment.</param>
-            /// <param name="processRunner">The process runner.</param>
-            /// <param name="tools">The tool locator.</param>
-            protected SqlPackageRunner(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner, IToolLocator tools)
-            : base(fileSystem, environment, processRunner, tools)
+        /// Initializes a new instance of the <see cref="T:Cake.Core.Tooling.Tool`1" /> class.
+        /// </summary>
+        /// <param name="fileSystem">The file system.</param>
+        /// <param name="environment">The environment.</param>
+        /// <param name="processRunner">The process runner.</param>
+        /// <param name="tools">The tool locator.</param>
+        protected SqlPackageRunner(IFileSystem fileSystem, ICakeEnvironment environment, IProcessRunner processRunner, IToolLocator tools)
+        : base(fileSystem, environment, processRunner, tools)
         {
             Environment = environment;
         }
