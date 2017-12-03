@@ -12,14 +12,14 @@ BuildParameters.SetParameters(context: Context,
                             repositoryOwner: "RLittlesII",
                             repositoryName: "Cake.SqlPackage",
                             appVeyorAccountName: "RLittlesII",
-                            shouldPostToGitter: false,
-                            shouldPostToSlack: false,
-                            shouldRunDupFinder: false);
+                            shouldRunDupFinder: false,
+							shouldRunCodecov: false,
+							shouldRunInspectCode: false);
 
 BuildParameters.PrintParameters(Context);
 
 ToolSettings.SetToolSettings(context: Context,
-                            dupFinderExcludePattern: new string[] { BuildParameters.RootDirectoryPath + "/src/Cake.SqlPackage.Tests/*.cs" },
+                            dupFinderExcludePattern: new string[] { BuildParameters.RootDirectoryPath + "/src/Cake.SqlPackage.UnitTests/*.cs" },
                             testCoverageFilter: "+[*]* -[xunit.*]* -[Cake.Core]* -[Cake.Testing]* -[*.Tests]* -[FakeItEasy]*",
                             testCoverageExcludeByAttribute: "*.ExcludeFromCodeCoverage*",
                             testCoverageExcludeByFile: "*/*Designer.cs;*/*.g.cs;*/*.g.i.cs");

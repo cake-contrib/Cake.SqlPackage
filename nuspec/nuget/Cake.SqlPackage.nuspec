@@ -16,8 +16,8 @@
         <tags>Cake Script SQL DACPAC</tags>
     </metadata>    
     <files>
-       <file src="net45\Cake.SqlPackage.dll" target="lib/net45" /> 
-        <file src="net45\Cake.SqlPackage.pdb" target="lib/net45" />
+       <file src="net46\Cake.SqlPackage.dll" target="lib/net46" /> 
+        <file src="net46\Cake.SqlPackage.pdb" target="lib/net46" />
        <file src="netstandard1.6\Cake.SqlPackage.dll" target="lib/netstandard1.6" /> 
         <file src="netstandard1.6\Cake.SqlPackage.pdb" target="lib/netstandard1.6" />
     </files>
