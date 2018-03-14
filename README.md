@@ -7,7 +7,7 @@ Cake addin that extends Cake for creating and deploying SQL Server databases and
 
 |Develop|Master|
 |:--:|:--:|
-|[![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/develop?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/develop?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/master)|
+|[![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/develop?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/develop)|[![Build status](https://ci.appveyor.com/api/projects/status/fexosj1c5ho9f2kd/branch/master?svg=true)](https://ci.appveyor.com/project/RLittlesII/cake-sqlpackage/branch/master)|
 
 | Nuget |
 | :--: |
