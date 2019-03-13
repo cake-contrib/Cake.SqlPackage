@@ -1,5 +1,4 @@
-﻿using System;
-using Cake.Core;
+﻿using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 
@@ -25,20 +24,7 @@ namespace Cake.SqlPackage
         {
         }
 
-        /// <summary>
-        /// Runs SqlPackage with the specified extract settings.
-        /// </summary>
-        public void DriftReport(SqlPackageDriftReportSettings settings)
-        {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            Run(settings, BuildArguments(settings));
-        }
-
-        private ProcessArgumentBuilder BuildArguments(SqlPackageDriftReportSettings settings)
+        protected override ProcessArgumentBuilder BuildArguments(SqlPackageDriftReportSettings settings)
         {
             var builder = CreateBuilder(settings);
 

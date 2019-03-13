@@ -1,5 +1,6 @@
 ﻿using System;
 using Cake.Core;
+using Cake.Core.IO;
 using Cake.Testing;
 using Xunit;
 
@@ -9,11 +10,17 @@ namespace Cake.SqlPackage.UnitTests
     {
         public sealed class TheRunMethod
         {
+            private SqlPackageExtractFixture fixture;
+
+            public TheRunMethod()
+            {
+                fixture = new SqlPackageExtractFixture();
+            }
+
             [Fact]
             public void Should_Throw_If_Settings_Is_Null()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings = null;
 
                 // When
@@ -27,7 +34,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Throw_If_Sql_Package_Runner_Was_Not_Found()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.GivenDefaultToolDoNotExist();
 
                 // When
@@ -44,7 +50,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Use_Sql_Package_Runner_From_Tool_Path_If_Provided(string toolPath, string expected)
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.ToolPath = toolPath;
                 fixture.GivenSettingsToolPathExist();
 
@@ -58,9 +63,6 @@ namespace Cake.SqlPackage.UnitTests
             [Fact]
             public void Should_Find_Sql_Package_Runner_If_Tool_Path_Not_Provided()
             {
-                // Given
-                var fixture = new SqlPackageExtractFixture();
-
                 // When
                 var result = fixture.Run();
 
@@ -71,9 +73,6 @@ namespace Cake.SqlPackage.UnitTests
             [Fact]
             public void Should_Set_Working_Directory()
             {
-                // Given
-                var fixture = new SqlPackageExtractFixture();
-
                 // When
                 var result = fixture.Run();
 
@@ -85,7 +84,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Throw_If_Process_Was_Not_Started()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.GivenProcessCannotStart();
 
                 // When
@@ -100,7 +98,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Throw_If_Process_Has_A_Non_Zero_Exit_Code()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.GivenProcessExitsWithCode(1);
 
                 // When
@@ -114,9 +111,6 @@ namespace Cake.SqlPackage.UnitTests
             [Fact]
             public void Should_Add_Action_If_Provided()
             {
-                // Given
-                var fixture = new SqlPackageExtractFixture();
-
                 // When
                 var result = fixture.Run();
 
@@ -128,7 +122,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_OutputPath_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.OutputPath = "./artifacts";
 
                 // When
@@ -142,7 +135,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Overwrite_Files_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.OverwriteFiles = true;
 
                 // When
@@ -156,7 +148,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Profile_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.Profile = "./profile.pubxml";
 
                 // When
@@ -170,7 +161,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Quiet_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.Quiet = true;
 
                 // When
@@ -181,25 +171,8 @@ namespace Cake.SqlPackage.UnitTests
             }
 
             [Fact]
-            public void Should_Add_Azure_Key_Vault_Auth_Method_If_Provided()
-            {
-                // Given
-                var fixture = new SqlPackagePublishFixture();
-                fixture.Settings.AzureKeyVaultAuthMethod = AzureKeyVaultAuthMethod.Interactive;
-
-                // When
-                var result = fixture.Run();
-
-                // Then
-                Assert.Equal("/Action:Publish /AzureKeyVaultAuthMethod:Interactive", result.Args);
-            }
-
-            [Fact]
             public void Should_Not_Add_Quiet_If_Not_Provided()
             {
-                // Given
-                var fixture = new SqlPackageExtractFixture();
-
                 // When
                 var result = fixture.Run();
 
@@ -211,7 +184,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Source_Connection_String_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.SourceConnectionString =
                     "Data Source=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True";
 
@@ -219,14 +191,13 @@ namespace Cake.SqlPackage.UnitTests
                 var result = fixture.Run();
 
                 // Then
-                Assert.Equal("/Action:Extract /SourceConnectionString:\"Data Source=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True\"", result.Args);
+                Assert.Equal("/Action:Extract /SourceConnectionString:\"Data Source=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True\"",result.Args);
             }
 
             [Fact]
             public void Should_Not_Add_Source_File_If_Source_Connection_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.SourceConnectionString =
                     "Data Source=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True";
 
@@ -241,7 +212,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Source_Properties_If_Source_Connection_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.SourceConnectionString =
                     "Data Source=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True";
 
@@ -263,7 +233,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Source_File_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.SourceFile = "./sqlpublishprofile.pubxml";
 
                 // When
@@ -277,7 +246,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Source_Connection_If_Source_File_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.SourceFile = "./sqlpublishprofile.pubxml";
 
                 // When
@@ -291,7 +259,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Source_Properties_If_Source_File_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.SourceFile = "./sqlpublishprofile.pubxml";
 
                 // When
@@ -312,7 +279,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Target_Connection_String_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TargetConnectionString =
                     "Data Target=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True";
 
@@ -327,7 +293,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Target_File_If_Target_Connection_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TargetConnectionString =
                     "Data Target=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True";
 
@@ -342,7 +307,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Target_Properties_If_Target_Connection_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TargetConnectionString =
                     "Data Target=(LocalDB)\\v11.0;AttachDbFileName=|DataDirectory|\\DatabaseFileName.mdf;InitialCatalog=DatabaseName;Integrated Security=True;MultipleActiveResultSets=True";
 
@@ -364,7 +328,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Target_File_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
 
                 // When
@@ -378,7 +341,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Not_Add_Target_Connection_If_Target_File_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
 
                 // When
@@ -392,7 +354,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Tenant_Id_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TenantId = "10";
 
                 // When
@@ -403,24 +364,9 @@ namespace Cake.SqlPackage.UnitTests
             }
 
             [Fact]
-            public void Should_Add_Universal_Authentication_Provided()
-            {
-                // Given
-                var fixture = new SqlPackageImportFixture();
-                fixture.Settings.UniversalAuthentication = true;
-
-                // When
-                var result = fixture.Run();
-
-                // Then
-                Assert.Equal("/Action:Import /UniversalAuthentication:True", result.Args);
-            }
-
-            [Fact]
             public void Should_Not_Add_Target_Properties_If_Target_File_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.TargetFile = "./sqlpublishprofile.pubxml";
 
                 // When
@@ -445,7 +391,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Properties_If_Provided(string key, string value)
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.Properties.Add(key, value);
 
                 // When
@@ -459,7 +404,6 @@ namespace Cake.SqlPackage.UnitTests
             public void Should_Add_Properties_After_Settings_If_Provided()
             {
                 // Given
-                var fixture = new SqlPackageExtractFixture();
                 fixture.Settings.UniversalAuthentication = true;
                 fixture.Settings.Properties.Add("CommandTimeout", "120");
 
@@ -468,6 +412,20 @@ namespace Cake.SqlPackage.UnitTests
 
                 //Then
                 Assert.Equal($"/Action:Extract /UniversalAuthentication:True /p:CommandTimeout=120", result.Args);
+            }
+
+
+            [Fact]
+            public void Should_Use_Process_Settings_If_Provided()
+            {
+                // Given
+                fixture.ProcessSettings = new ProcessSettings {RedirectStandardOutput = true};
+
+                // When
+                var result = fixture.Run();
+
+                //Then
+                Assert.Equal(fixture.ProcessSettings, result.Process);
             }
         }
     }

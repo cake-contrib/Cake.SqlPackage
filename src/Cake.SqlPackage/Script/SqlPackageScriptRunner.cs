@@ -23,21 +23,7 @@ namespace Cake.SqlPackage
             Environment = environment;
         }
 
-        /// <summary>
-        /// Runs SqlPackage with the specified publish settings.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        public void Script(SqlPackageScriptSettings settings)
-        {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            Run(settings, BuildArguments(settings));
-        }
-
-        private ProcessArgumentBuilder BuildArguments(SqlPackageScriptSettings settings)
+        protected override ProcessArgumentBuilder BuildArguments(SqlPackageScriptSettings settings)
         {
             var builder = CreateBuilder(settings);
 

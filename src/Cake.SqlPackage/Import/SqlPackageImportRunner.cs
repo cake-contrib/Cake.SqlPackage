@@ -1,5 +1,4 @@
-﻿using System;
-using Cake.Core;
+﻿using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 
@@ -25,21 +24,7 @@ namespace Cake.SqlPackage
         {
         }
 
-        /// <summary>
-        /// Runs SqlPackage with the specified extract settings.
-        /// </summary>
-        /// <param name="settings">The SQL package extract settings.</param>
-        public void Import(SqlPackageImportSettings settings)
-        {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            Run(settings, BuildArguments(settings));
-        }
-
-        private ProcessArgumentBuilder BuildArguments(SqlPackageImportSettings settings)
+        protected override ProcessArgumentBuilder BuildArguments(SqlPackageImportSettings settings)
         {
             var builder = CreateBuilder(settings);
 

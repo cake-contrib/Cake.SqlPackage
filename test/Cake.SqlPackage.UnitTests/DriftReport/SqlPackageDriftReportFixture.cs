@@ -3,15 +3,13 @@
     internal sealed class SqlPackageDriftReportFixture : PackageFixture<SqlPackageDriftReportSettings>
     {
         public SqlPackageDriftReportFixture()
-            : base("SqlPackage.exe")
         {
             Settings.WorkingDirectory = "/Working";
         }
 
-        protected override void RunTool()
+        protected override SqlPackageRunner<SqlPackageDriftReportSettings> CreateTool()
         {
-            var tool = new SqlPackageDriftReportRunner(FileSystem, Environment, ProcessRunner, Tools);
-            tool.DriftReport(Settings);
+            return new SqlPackageDriftReportRunner(FileSystem, Environment, ProcessRunner, Tools);
         }
     }
 }

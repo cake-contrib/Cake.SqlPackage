@@ -1,5 +1,4 @@
-﻿using System;
-using Cake.Core;
+﻿using Cake.Core;
 using Cake.Core.IO;
 using Cake.Core.Tooling;
 
@@ -23,21 +22,7 @@ namespace Cake.SqlPackage
             Environment = environment;
         }
 
-        /// <summary>
-        /// Runs SqlPackage with the specified deployreport settings.
-        /// </summary>
-        /// <param name="settings">The settings.</param>
-        public void DeployReport(SqlPackageDeployReportSettings settings)
-        {
-            if (settings == null)
-            {
-                throw new ArgumentNullException(nameof(settings));
-            }
-
-            Run(settings, BuildArguments(settings));
-        }
-
-        private ProcessArgumentBuilder BuildArguments(SqlPackageDeployReportSettings settings)
+        protected override ProcessArgumentBuilder BuildArguments(SqlPackageDeployReportSettings settings)
         {
             var builder = CreateBuilder(settings);
 
