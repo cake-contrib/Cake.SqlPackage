@@ -1,6 +1,7 @@
 ﻿using Cake.Core;
 using Cake.Core.Annotations;
 using System;
+using Cake.Core.IO;
 
 namespace Cake.SqlPackage
 {
@@ -32,13 +33,7 @@ namespace Cake.SqlPackage
         [CakeAliasCategory("Extract")]
         public static void SqlPackageExtract(this ICakeContext context, SqlPackageExtractSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackageExtractRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Extract(settings ?? new SqlPackageExtractSettings());
+            SqlPackageExtract(context, settings, null);
         }
 
         /// <summary>
@@ -72,7 +67,34 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackageExtractRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Extract(settings);
+            runner.Execute(settings);
+        }
+
+        /// <summary>
+        /// Creates a database snapshot (.dacpac) file from SQL Server.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage.</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackageExtractSettings();
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackageExtract(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("Extract")]
+        public static void SqlPackageExtract(this ICakeContext context, SqlPackageExtractSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackageExtractRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackageExtractSettings(), processSettings);
         }
 
         /// <summary>
@@ -91,13 +113,7 @@ namespace Cake.SqlPackage
         [CakeAliasCategory("Publish")]
         public static void SqlPackagePublish(this ICakeContext context, SqlPackagePublishSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackagePublishRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Publish(settings ?? new SqlPackagePublishSettings());
+            SqlPackagePublish(context, settings, null);
         }
 
         /// <summary>
@@ -132,7 +148,34 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackagePublishRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Publish(settings);
+            runner.Execute(settings);
+        }
+
+        /// <summary>
+        /// Incrementally updates a database schema to match the schema of a source .dacpac file.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackagePublishSettings();
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackagePublish(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("Publish")]
+        public static void SqlPackagePublish(this ICakeContext context, SqlPackagePublishSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackagePublishRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackagePublishSettings(), processSettings);
         }
 
         /// <summary>
@@ -156,13 +199,7 @@ namespace Cake.SqlPackage
         [CakeAliasCategory("Export")]
         public static void SqlPackageExport(this ICakeContext context, SqlPackageExportSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackageExportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Export(settings ?? new SqlPackageExportSettings());
+            SqlPackageExport(context, settings, null);
         }
 
         /// <summary>
@@ -198,7 +235,39 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackageExportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Export(settings);
+            runner.Execute(settings);
+        }
+
+        /// <summary>
+        /// Exports a live database to a BACPAC package (.bacpac file).
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage.</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackageExportSettings
+        ///     {
+        ///         SourceConnectionString = connectionString,
+        ///         Profile = File("./profile.publish.xml")
+        ///         TargetFile = File("database.bacpac")
+        ///     };
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackageExport(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("Export")]
+        public static void SqlPackageExport(this ICakeContext context, SqlPackageExportSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackageExportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackageExportSettings(), processSettings);
         }
 
         /// <summary>
@@ -221,13 +290,7 @@ namespace Cake.SqlPackage
         [CakeAliasCategory("Import")]
         public static void SqlPackageImport(this ICakeContext context, SqlPackageImportSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackageImportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Import(settings ?? new SqlPackageImportSettings());
+            SqlPackageImport(context, settings, null);
         }
 
         /// <summary>
@@ -262,7 +325,38 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackageImportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Import(settings);
+            runner.Execute(settings);
+        }
+
+        /// <summary>
+        /// Imports the schema and table data from a BACPAC package into a new user database
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage.</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackageImportSettings
+        ///     {
+        ///         SourceFile = File("database.bacpac")
+        ///         TargetConnectionString = connectionString
+        ///     };
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackageImport(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("Import")]
+        public static void SqlPackageImport(this ICakeContext context, SqlPackageImportSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackageImportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackageImportSettings(), processSettings);
         }
 
         /// <summary>
@@ -281,13 +375,7 @@ namespace Cake.SqlPackage
         [CakeAliasCategory("DeployReport")]
         public static void SqlPackageDeployReport(this ICakeContext context, SqlPackageDeployReportSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackageDeployReportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.DeployReport(settings ?? new SqlPackageDeployReportSettings());
+            SqlPackageDeployReport(context, settings, null);
         }
 
         /// <summary>
@@ -321,7 +409,34 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackageDeployReportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.DeployReport(settings);
+            runner.Execute(settings);
+        }
+
+        /// <summary>
+        /// Creates an XML report of the changes that would be made by a publish action.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage.</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackageDeployReportSettings();
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackageDeployReport(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("DeployReport")]
+        public static void SqlPackageDeployReport(this ICakeContext context, SqlPackageDeployReportSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackageDeployReportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackageDeployReportSettings(), processSettings);
         }
 
         /// <summary>
@@ -340,13 +455,7 @@ namespace Cake.SqlPackage
         [CakeAliasCategory("DriftReport")]
         public static void SqlPackageDriftReport(this ICakeContext context, SqlPackageDriftReportSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackageDriftReportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.DriftReport(settings ?? new SqlPackageDriftReportSettings());
+            SqlPackageDriftReport(context, settings, null);
         }
 
         /// <summary>
@@ -380,8 +489,36 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackageDriftReportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.DriftReport(settings);
+            runner.Execute(settings);
         }
+
+        /// <summary>
+        /// Creates an XML report of the changes that have been made to a registered database since it was last registered.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage.</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackageDriftReportSettings();
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackageDriftReport(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("DriftReport")]
+        public static void SqlPackageDriftReport(this ICakeContext context, SqlPackageDriftReportSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackageDriftReportRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackageDriftReportSettings(), processSettings);
+        }
+
 
         /// <summary>
         /// Creates a Transact-SQL incremental update script that updates the schema of a target to match the schema of a source.
@@ -390,25 +527,21 @@ namespace Cake.SqlPackage
         /// <param name="settings">The settings.</param>
         /// <example>
         ///   <code>
-        ///     SqlPackageScript(settings =>
+        ///     var settings = new SqlPackageScriptSettings
         ///     {
-        ///        settings.SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac");
-        ///        settings.Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml");
-        ///        settings.OutputPath = File("./scripts/CoffeeHouse.sql");
-        ///     });
+        ///        SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac");
+        ///        Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml");
+        ///        OutputPath = File("./scripts/CoffeeHouse.sql");
+        ///     }
+        ///
+        ///     SqlPackageScript(settings);
         ///   </code>
         /// </example>
         [CakeMethodAlias]
         [CakeAliasCategory("Script")]
         public static void SqlPackageScript(this ICakeContext context, SqlPackageScriptSettings settings)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            var runner = new SqlPackageScriptRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Script(settings ?? new SqlPackageScriptSettings());
+            SqlPackageScript(context, settings, null);
         }
 
         /// <summary>
@@ -444,7 +577,39 @@ namespace Cake.SqlPackage
             configurationAction(settings);
 
             var runner = new SqlPackageScriptRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
-            runner.Script(settings);
+            runner.Execute(settings);
+        }
+
+        /// <summary>
+        /// Creates a Transact-SQL incremental update script that updates the schema of a target to match the schema of a source.
+        /// </summary>
+        /// <param name="context">The context.</param>
+        /// <param name="settings">The settings.</param>
+        /// <param name="processSettings">The ProcessSettings for SqlPackage.</param>
+        /// <example>
+        ///   <code>
+        ///     var settings = new SqlPackageScriptSettings
+        ///     {
+        ///        SourceFile = File("./CoffeeHouse/bin/" + configuration + "/CoffeeHouse.dacpac");
+        ///        Profile = File("./CoffeeHouse/publish/CoffeeHouse.publish.xml");
+        ///        OutputPath = File("./scripts/CoffeeHouse.sql");
+        ///     }
+        ///     var processSettings = new ProcessSettings();
+        ///
+        ///     SqlPackageScript(settings, processSettings);
+        ///   </code>
+        /// </example>
+        [CakeMethodAlias]
+        [CakeAliasCategory("Script")]
+        public static void SqlPackageScript(this ICakeContext context, SqlPackageScriptSettings settings, ProcessSettings processSettings)
+        {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            var runner = new SqlPackageScriptRunner(context.FileSystem, context.Environment, context.ProcessRunner, context.Tools);
+            runner.Execute(settings ?? new SqlPackageScriptSettings(), processSettings);
         }
     }
 }

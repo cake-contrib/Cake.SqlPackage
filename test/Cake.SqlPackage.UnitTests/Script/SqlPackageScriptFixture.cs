@@ -3,16 +3,13 @@
     internal sealed class SqlPackageScriptFixture : PackageFixture<SqlPackageScriptSettings>
     {
         public SqlPackageScriptFixture()
-            : base("SqlPackage.exe")
         {
             Settings.WorkingDirectory = "/Working";
         }
 
-        /// <summary>Runs the tool.</summary>
-        protected override void RunTool()
+        protected override SqlPackageRunner<SqlPackageScriptSettings> CreateTool()
         {
-            var tool = new SqlPackageScriptRunner(FileSystem, Environment, ProcessRunner, Tools);
-            tool.Script(Settings);
+            return new SqlPackageScriptRunner(FileSystem, Environment, ProcessRunner, Tools);
         }
     }
 }

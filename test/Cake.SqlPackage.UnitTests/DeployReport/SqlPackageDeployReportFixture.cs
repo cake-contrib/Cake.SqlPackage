@@ -3,16 +3,13 @@
     internal sealed class SqlPackageDeployReportFixture : PackageFixture<SqlPackageDeployReportSettings>
     {
         public SqlPackageDeployReportFixture()
-            : base("SqlPackage.exe")
         {
             Settings.WorkingDirectory = "/Working";
         }
 
-        /// <summary>Runs the tool.</summary>
-        protected override void RunTool()
+        protected override SqlPackageRunner<SqlPackageDeployReportSettings> CreateTool()
         {
-            var tool = new SqlPackageDeployReportRunner(FileSystem, Environment, ProcessRunner, Tools);
-            tool.DeployReport(Settings);
+            return new SqlPackageDeployReportRunner(FileSystem, Environment, ProcessRunner, Tools);
         }
     }
 }

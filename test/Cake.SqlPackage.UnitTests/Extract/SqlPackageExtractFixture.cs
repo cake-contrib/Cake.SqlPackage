@@ -3,15 +3,13 @@
     internal sealed class SqlPackageExtractFixture : PackageFixture<SqlPackageExtractSettings>
     {
         public SqlPackageExtractFixture()
-            : base("SqlPackage.exe")
         {
             Settings.WorkingDirectory = "/Working";
         }
 
-        protected override void RunTool()
+        protected override SqlPackageRunner<SqlPackageExtractSettings> CreateTool()
         {
-            var tool = new SqlPackageExtractRunner(FileSystem, Environment, ProcessRunner, Tools);
-            tool.Extract(Settings);
+            return new SqlPackageExtractRunner(FileSystem, Environment, ProcessRunner, Tools);
         }
     }
 }

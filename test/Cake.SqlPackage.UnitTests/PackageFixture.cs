@@ -6,7 +6,9 @@ namespace Cake.SqlPackage.UnitTests
     internal abstract class PackageFixture<TSettings> : ToolFixture<TSettings, ToolFixtureResult>
         where TSettings : SqlPackageSettings, new()
     {
-        protected PackageFixture(string toolName) : base("SqlPackage.exe")
+        public ProcessSettings ProcessSettings { get; set; }
+
+        protected PackageFixture() : base("SqlPackage.exe")
         {
             ProcessRunner.Process.SetStandardOutput(new string[] { });
         }
@@ -15,5 +17,13 @@ namespace Cake.SqlPackage.UnitTests
         {
             return new ToolFixtureResult(path, process);
         }
+
+        /// <summary>Runs the tool.</summary>
+        protected override void RunTool()
+        {
+            CreateTool().Execute(Settings, ProcessSettings);
+        }
+
+        protected abstract SqlPackageRunner<TSettings> CreateTool();
     }
 }
