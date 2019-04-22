@@ -7,14 +7,15 @@ BuildParameters.SetParameters(context: Context,
                             buildSystem: BuildSystem,
                             sourceDirectoryPath: "./src",
                             testDirectoryPath: "./test",
-							testFilePattern: "/**/*UnitTests.csproj",
-							solutionFilePath: "./Cake.SqlPackage.sln",
+                            testFilePattern: "/**/*UnitTests.csproj",
+                            solutionFilePath: "./Cake.SqlPackage.sln",
                             repositoryOwner: "RLittlesII",
                             repositoryName: "Cake.SqlPackage",
                             appVeyorAccountName: "RLittlesII",
                             shouldRunDupFinder: false,
-							shouldRunCodecov: false,
-							shouldRunInspectCode: false);
+                            shouldRunCodecov: false,
+                            shouldRunInspectCode: false,
+                            shouldRunGitVersion: true);
 
 BuildParameters.PrintParameters(Context);
 
