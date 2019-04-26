@@ -8,7 +8,7 @@
     <Copyright>Copyright 2017 (c) Rodney Littles II and contributors</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
     <PackageProjectUrl>https://github.com/RLittlesII/Cake.SqlPackage</PackageProjectUrl>
-    <PackageIconUrl>https://cdn.rawgit.com/cake-contrib/graphics/a5cf0f881c390650144b2243ae551d5b9f836196/png/cake-contrib-medium.png</PackageIconUrl>
+    <PackageIconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/RLittlesII/Cake.SqlPackage</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Cake Script SQL DACPAC</PackageTags>
@@ -18,7 +18,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.32.1">
+    <PackageReference Include="Cake.Core" Version="0.33.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
