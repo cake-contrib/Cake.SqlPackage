@@ -8,9 +8,9 @@
         <description>
             Cake addin that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
         </description>
-        <license type="expression">MIT</license>
+        <licenseUrl>https://raw.githubusercontent.com/cake-contrib/Cake.SqlPackage/master/LICENSE</licenseUrl>
         <repository type="git" url="https://github.com/cake-contrib/Cake.SqlPackage"/>
-        <projectUrl>https://github.com/cake-contrib/Cake.SqlPackage</projectUrl>
+        <projectUrl>https://github.com/cake-contrib/Cake.SqlPackage.git</projectUrl>
         <iconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <copyright>Copyright (c) Rodney Littles II 2018</copyright>

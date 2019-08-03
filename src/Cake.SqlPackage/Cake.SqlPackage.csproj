@@ -7,18 +7,18 @@
     <PackageId>Cake.SqlPackage</PackageId>
     <Copyright>Copyright 2017 (c) Rodney Littles II and contributors</Copyright>
     <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageProjectUrl>https://github.com/RLittlesII/Cake.SqlPackage</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/cake-contrib/Cake.SqlPackage</PackageProjectUrl>
     <PackageIconUrl>https://cdn.jsdelivr.net/gh/cake-contrib/graphics/png/cake-contrib-medium.png</PackageIconUrl>
-    <RepositoryUrl>https://github.com/RLittlesII/Cake.SqlPackage</RepositoryUrl>
+    <RepositoryUrl>https://github.com/cake-contrib/Cake.SqlPackage.git</RepositoryUrl>
     <RepositoryType>GitHub</RepositoryType>
     <PackageTags>Cake Script SQL DACPAC</PackageTags>
     <Description>Cake addin that extends Cake for creating and deploying SQL Server databases and DACPAC packages.</Description>
     <Authors>Rodney Littles II, Cake Contributors</Authors>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/RLittlesII/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/cake-contrib/blob/master/LICENSE</PackageLicenseUrl>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Cake.Core" Version="0.33.0">
+    <PackageReference Include="Cake.Core" Version="0.34.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
   </ItemGroup>
