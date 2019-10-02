@@ -1,7 +1,8 @@
 # Cake.SqlPackage
+
 Cake addin that extends Cake for creating and deploying SQL Server databases and DACPAC packages.
 
-[![License](http://img.shields.io/:license-mit-blue.svg)](https://rlittlesii.mit-license.org/) 
+[![License](http://img.shields.io/:license-mit-blue.svg)](https://rlittlesii.mit-license.org/)
 
 ## Build Status
 
@@ -13,6 +14,6 @@ Cake addin that extends Cake for creating and deploying SQL Server databases and
 | :--: |
 | [![nuget](https://img.shields.io/nuget/vpre/Cake.SqlPackage.svg)](https://www.nuget.org/packages/Cake.SqlPackage) |
 
+## Example
 
-## [Example](https://github.com/RLittlesII/Cake.SqlPackage/tree/develop/example)
-
+For an example see [here](https://github.com/RLittlesII/Cake.SqlPackage/tree/develop/example).
